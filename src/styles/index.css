@@ -1,0 +1,24 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+@import './rtl.css';
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-scroll-video {
+    transform: translate3d(0, calc(var(--hero-scroll, 0px) * 0.18), 0) scale(1.04);
+    transition: transform 0.12s linear;
+    will-change: transform;
+  }
+
+  .scroll-reveal {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}

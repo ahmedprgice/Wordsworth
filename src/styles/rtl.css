@@ -1,0 +1,109 @@
+/* RTL Support for Arabic Language */
+
+/* Flip horizontal margins and padding */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Adjust dropdown positioning */
+[dir="rtl"] .absolute.right-0 {
+  right: auto;
+  left: 0;
+}
+
+[dir="rtl"] .absolute.left-0 {
+  left: auto;
+  right: 0;
+}
+
+/* Adjust text alignment */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-center {
+  text-align: center;
+}
+
+/* Keep buttons and flex items in correct order */
+[dir="rtl"] button,
+[dir="rtl"] a {
+  direction: rtl;
+}
+
+/* Center aligned items stay centered */
+[dir="rtl"] .justify-center {
+  justify-content: center;
+}
+
+/* Keep English text left-to-right when inside RTL context */
+[dir="rtl"] [lang="en"],
+[dir="rtl"] .ltr-text {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Adjust border radius for RTL */
+[dir="rtl"] .rounded-l {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
+[dir="rtl"] .rounded-r {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+/* Fix grid and flex layouts */
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+/* Ensure proper spacing in RTL */
+[dir="rtl"] .space-x-2 > * + * {
+  margin-right: 0.5rem;
+  margin-left: 0;
+}
+
+[dir="rtl"] .space-x-4 > * + * {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+/* Navbar specific fixes */
+[dir="rtl"] nav {
+  direction: rtl;
+}
+
+/* Footer fixes */
+[dir="rtl"] footer {
+  direction: rtl;
+}
