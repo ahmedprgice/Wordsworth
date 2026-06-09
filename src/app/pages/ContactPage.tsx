@@ -7,6 +7,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export function ContactPage() {
   const { language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
   const ui = isArabic
     ? {
         contactTitle: 'اتصل بنا',
@@ -100,6 +101,51 @@ export function ContactPage() {
         faq4Q: 'Can I get a trial class?',
         faq4A: 'Absolutely! We offer free trial classes so you can experience our teaching methodology before enrolling.',
       };
+  if (isChinese) {
+    Object.assign(ui, {
+      contactTitle: '联系我们',
+      contactSubtitle: '有任何问题？欢迎给我们留言，我们会尽快回复您。',
+      sendTitle: '给我们留言',
+      sendSubtitle: '告诉我们您的需求，我们会尽快回复。',
+      sent: '消息已发送！',
+      sentDesc: '我们将在24小时内回复您。',
+      name: '姓名 *',
+      email: '邮箱 *',
+      phone: '电话号码（可选）',
+      subject: '主题 *',
+      message: '留言 *',
+      submit: '发送消息',
+      visit: '参观我们的中心',
+      call: '致电我们',
+      emailUs: '发送邮件',
+      openMaps: '在 Google 地图中打开 →',
+      officeHours: '办公时间',
+      quickContact: '快速联系',
+      mapTitle: '在地图上找到我们',
+      faq: '常见问题',
+      namePlaceholder: '您的姓名',
+      subjectPlaceholder: '我们可以如何帮助您？',
+      messagePlaceholder: '请告诉我们更多咨询内容...',
+      availableHours: '周一至周五，上午9点至晚上9点',
+      replyWithin: '我们会在24小时内回复',
+      mondayFriday: '周一至周五',
+      saturdaySunday: '周六至周日',
+      weekdayTime: '上午9:00 - 晚上9:00',
+      weekendTime: '上午10:00 - 下午6:00',
+      quickContactDesc: '偏好即时消息？通过 WhatsApp 联系我们以获得快速回复。',
+      whatsappUs: 'WhatsApp 联系我们',
+      callUsNow: '立即致电',
+      directLine: '直线电话',
+      faq1Q: '你们的班级人数是多少？',
+      faq1A: '我们保持小班教学，每班最多12-20名学生，具体取决于课程。',
+      faq2Q: '你们提供线上课程吗？',
+      faq2A: '是的，我们提供线下和线上课程，以适合不同学习偏好和时间安排。',
+      faq3Q: '你们接受哪些付款方式？',
+      faq3A: '我们接受银行转账、信用卡/借记卡，并为长期课程提供分期付款计划。',
+      faq4Q: '我可以参加试听课吗？',
+      faq4A: '当然可以！我们提供免费试听课，让您在报名之前体验我们的教学方式。',
+    });
+  }
   const [formData, setFormData] = useState({
     name: '',
     email: '',

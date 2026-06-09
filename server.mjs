@@ -1,6 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import chatHandler from './api/chat.js';
 import { savePlacementSubmission } from './api/_placement-db.js';
 
 dotenv.config();
@@ -14,6 +15,8 @@ app.use(express.json());
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true });
 });
+
+app.post('/api/chat', chatHandler);
 
 app.post('/api/contact', async (req, res) => {
   const { fullName, email, phone, subject, courseInterest, message, source } = req.body || {};

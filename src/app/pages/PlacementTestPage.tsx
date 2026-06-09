@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
-import { CheckCircle, ArrowRight, Trophy } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/card';
 import { motion } from 'motion/react';
@@ -161,6 +161,8 @@ const placementUiText = {
     ageError: 'Please enter a valid age to start the test.',
     congrats: 'Congratulations!',
     complete: 'Your placement test is complete',
+    resultFollowUpTitle: 'Thank you for completing the test',
+    resultFollowUpDesc: 'Our team will review your answers and get back to you with your placement result and the best course recommendation.',
     englishLevel: 'Your English Level',
     youScored: 'You scored',
     outOf: 'out of',
@@ -267,7 +269,52 @@ const placementUiText = {
     businessTitle: 'الإنجليزية للأعمال',
     businessDesc: 'لغة إنجليزية احترافية للنجاح في بيئة العمل',
   },
-  zh: {} as Record<string, string>,
+  zh: {
+    heroTitle: '免费水平测试',
+    heroSubtitle: '通过50道题了解您的英语水平',
+    beforeBegin: '开始之前',
+    beforeBeginDesc: '完成50道语法和词汇题，了解您的 CEFR 等级（A1-C2），并获得适合您的课程推荐。',
+    questionCountTitle: '50道精心设计的问题',
+    questionCountDesc: '最多60分钟完成',
+    recommendationTitle: '个性化课程建议',
+    recommendationDesc: '找到最适合您水平的课程',
+    email: '邮箱 *',
+    emailPlaceholder: 'your@email.com',
+    country: '国家 *',
+    countryPlaceholder: '选择您的国家',
+    classLevel: '班级水平 *',
+    classLevelPlaceholder: '选择班级水平',
+    age: '年龄 *',
+    agePlaceholder: '您的年龄',
+    startTest: '立即开始测试',
+    emailError: '请输入有效邮箱以开始测试。',
+    countryError: '请选择国家以开始测试。',
+    classLevelError: '请选择班级水平以开始测试。',
+    ageError: '请输入有效年龄以开始测试。',
+    congrats: '恭喜！',
+    complete: '您的水平测试已完成',
+    resultFollowUpTitle: '感谢您完成测试',
+    resultFollowUpDesc: '我们的团队将审核您的答案，并尽快与您联系，告知水平测试结果和最适合您的课程建议。',
+    journeyTitle: '今天开始您的学习旅程',
+    journeyDesc: '加入 Wordsworth Language Centre，迈出提升英语流利度的下一步。我们的专业导师将为您提供指导。',
+    applyNow: '立即申请',
+    talkToAdvisor: '咨询顾问',
+    callUsNow: '或立即致电：',
+    retake: '重新测试',
+    questionLabel: '问题',
+    of: '共',
+    timeRemaining: '剩余时间',
+    sectionBTitle: 'B 部分：写作（10分）',
+    sectionBA: '（A）选择一个主题并写一段描述。请使用描述外貌、态度或行为的形容词。（最多50词）',
+    sectionBTopics: '主题：',
+    topicMother: '我的母亲',
+    topicCountry: '我的国家',
+    topicOr: '或',
+    sectionBB: '（B）想象您刚结束两周假期。请写一封邮件给朋友，介绍旅程、住宿地点、活动和遇到的人。',
+    writingPlaceholder: '请在这里写下您的段落/邮件...',
+    writingError: '提交前请完成写作部分。',
+    submitTest: '提交测试',
+  },
   ms: {} as Record<string, string>,
 } as const;
 
@@ -388,9 +435,10 @@ export function PlacementTestPage() {
     return { level: 'Beginner', desc: 'A1-A2', course: 'beginner-english' };
   };
 
-  const ui = placementUiText.en;
-  const heroUi = language === 'ar' ? placementUiText.ar : placementUiText.en;
-  const startUi = language === 'ar' ? placementUiText.ar : placementUiText.en;
+  const activeUi = language === 'ar' ? placementUiText.ar : language === 'zh' ? placementUiText.zh : placementUiText.en;
+  const ui = activeUi;
+  const heroUi = activeUi;
+  const startUi = activeUi;
   const classLevelLabels: Record<(typeof classLevelOptions)[number], string> = language === 'ar'
     ? {
         Beginner: 'مبتدئ',
@@ -408,6 +456,16 @@ export function PlacementTestPage() {
         'Upper-Intermediate': 'Upper-Intermediate',
         Advanced: 'Advanced',
       };
+  const localizedClassLevelLabels: Record<(typeof classLevelOptions)[number], string> = language === 'zh'
+    ? {
+        Beginner: '初级',
+        Elementary: '基础',
+        'Pre-Intermediate': '初中级',
+        Intermediate: '中级',
+        'Upper-Intermediate': '中高级',
+        Advanced: '高级',
+      }
+    : classLevelLabels;
 
   const progress = ((currentQuestion + 1) / questions.length) * 100;
   const hours = String(Math.floor(remainingSeconds / 3600)).padStart(2, '0');
@@ -415,55 +473,6 @@ export function PlacementTestPage() {
   const seconds = String(remainingSeconds % 60).padStart(2, '0');
 
   if (showResults) {
-    const score = calculateScore();
-    const result = getLevel(score);
-    const selectedClassRecommendation = classLevelCourseMap[leadForm.classLevel as keyof typeof classLevelCourseMap];
-
-    const localizedLevel =
-      result.level === 'Advanced'
-        ? ui.advanced
-        : result.level === 'Intermediate'
-          ? ui.intermediate
-          : ui.beginner;
-
-    const localizedLevelDescription =
-      result.level === 'Advanced'
-        ? ui.levelDescAdvanced
-        : result.level === 'Intermediate'
-          ? ui.levelDescIntermediate
-          : ui.levelDescBeginner;
-
-    const primaryRecommendation = selectedClassRecommendation ?? {
-      id: result.course,
-      title: `${localizedLevel} ${ui.englishSuffix}`,
-      description: localizedLevelDescription,
-      duration: result.level === 'Beginner' ? '12 weeks' : result.level === 'Intermediate' ? '16 weeks' : '14 weeks',
-    };
-
-    const recommendedCourses = [
-      {
-        id: primaryRecommendation.id,
-        title: primaryRecommendation.title,
-        description: primaryRecommendation.description,
-        duration: primaryRecommendation.duration,
-        primary: true
-      },
-      {
-        id: 'ielts-preparation',
-        title: ui.ieltsTitle,
-        description: ui.ieltsDesc,
-        duration: '10 weeks',
-        primary: false
-      },
-      {
-        id: 'business-english',
-        title: ui.businessTitle,
-        description: ui.businessDesc,
-        duration: '12 weeks',
-        primary: false
-      },
-    ].filter((course, index, arr) => arr.findIndex((item) => item.id === course.id) === index);
-
     return (
       <div className="min-h-screen bg-gray-50 py-12" dir={isRTL ? 'rtl' : 'ltr'}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -481,62 +490,17 @@ export function PlacementTestPage() {
               <h1 className="mb-4">{ui.congrats}</h1>
               <p className="text-gray-600 mb-8">{ui.complete}</p>
 
-              <div className="bg-gradient-to-r from-brand-blue to-brand-blue-dark text-white rounded-2xl p-6 sm:p-8 mb-6">
-                <p className="text-lg mb-2 text-blue-100">{ui.englishLevel}</p>
-                <div className="inline-flex items-center gap-4 bg-white/20 rounded-full px-8 py-4">
-                  <Trophy className="w-8 h-8 text-brand-orange" />
-                  <div className={isRTL ? 'text-right' : 'text-left'}>
-                    <p className="text-3xl">{localizedLevel}</p>
-                    <p className="text-sm text-blue-100">{ui.cefrLabel}: {result.desc}</p>
-                  </div>
-                </div>
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <p className="text-sm text-blue-100">{ui.youScored} {score} {ui.outOf} {questions.length} {ui.correct}</p>
-                </div>
-              </div>
-
-              <div className="bg-blue-50 rounded-xl p-6 text-center border border-blue-100">
-                <p className="text-gray-700 italic">
-                  {ui.quote}
+              <div className="bg-gradient-to-r from-brand-blue to-brand-blue-dark text-white rounded-2xl p-6 sm:p-8">
+                <CheckCircle className="w-12 h-12 mx-auto mb-4 text-brand-orange" />
+                <h2 className="mb-3 text-white">{ui.resultFollowUpTitle}</h2>
+                <p className="text-blue-100 max-w-2xl mx-auto">
+                  {ui.resultFollowUpDesc}
                 </p>
               </div>
             </Card>
 
-            <div>
-              <h2 className="mb-6 text-center">{ui.recommendedCourses}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {recommendedCourses.map((course) => (
-                  <Card
-                    key={course.id}
-                    className={`flex flex-col rounded-2xl p-4 gap-3 border-2 ${
-                      course.primary ? 'border-brand-orange' : 'border-gray-200'
-                    }`}
-                  >
-                    {course.primary && (
-                      <div className="mb-3">
-                        <span className="inline-block px-3 py-1 bg-brand-orange text-white rounded-full text-sm">
-                          {ui.perfectMatch}
-                        </span>
-                      </div>
-                    )}
-                    <h3 className="mb-3">{course.title}</h3>
-                    <p className="text-gray-600 text-sm mb-4 flex-1">{course.description}</p>
-                    <div className="text-sm text-gray-500 mb-4">
-                      {ui.duration}: {course.duration}
-                    </div>
-                    <Link to={`/courses/${course.id}`}>
-                      <Button variant={course.primary ? 'primary' : 'outline'} className="w-full">
-                        {ui.viewCourse}
-                        <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
             <Card className="bg-gradient-to-r from-brand-blue to-brand-blue-dark text-white text-center border-0 rounded-2xl shadow-sm p-6 sm:p-8">
-              <Trophy className="w-16 h-16 mx-auto mb-4 text-brand-orange" />
+              <CheckCircle className="w-16 h-16 mx-auto mb-4 text-brand-orange" />
               <h2 className="mb-4 text-white">{ui.journeyTitle}</h2>
               <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
                 {ui.journeyDesc}
@@ -694,7 +658,7 @@ export function PlacementTestPage() {
                   </option>
                   {classLevelOptions.map((level) => (
                     <option key={level} value={level}>
-                      {classLevelLabels[level]}
+                      {localizedClassLevelLabels[level]}
                     </option>
                   ))}
                 </select>

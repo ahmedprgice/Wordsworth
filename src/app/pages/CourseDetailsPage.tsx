@@ -169,6 +169,7 @@ const courseData: Record<string, any> = {
 export function CourseDetailsPage() {
   const { language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
   const courseAliasMap: Record<string, string> = {
     'advanced-english': 'intermediate-english',
     'ielts-intensive': 'ielts-preparation',
@@ -245,7 +246,57 @@ export function CourseDetailsPage() {
         readyDescPrefix: 'Join',
         readyDescSuffix: 'and take the next step in your English learning journey.',
       };
+  if (isChinese) {
+    Object.assign(ui, {
+      notFound: '找不到课程',
+      notFoundDesc: '您查找的课程不存在。',
+      viewAll: '查看所有课程',
+      backToCourses: '返回课程',
+      maxStudents: '最多',
+      students: '名学生',
+      courseFee: '课程费用',
+      courseDates: '学习时长',
+      studyDuration: '学习时长',
+      scholarshipFee: '奖学金费用',
+      originalFee: '原价',
+      promotionIncludes: '优惠包含',
+      placementNote: '先参加免费的在线水平测试，帮助我们在入学前为您匹配合适的英语等级。',
+      scholarshipIncludes: ['英语水平测试', '报名费', '书本与学习材料', '签证费'],
+      mandarinPlacementNote: '普通话学生如有需要，可在入班前参加水平测试。',
+      mandarinScholarshipIncludes: ['水平测试（如有需要）', '报名费', '学习材料'],
+      monthLabel: (count: number) => `${count}个月`,
+      scholarshipDurationLabel: (studyMonths: number, bonusMonths: number, totalMonths: number) => `${studyMonths} + ${bonusMonths}个月免费（共${totalMonths}个月）`,
+      scholarshipDurationDesc: (studyMonths: number, bonusMonths: number, totalMonths: number) => `学习${studyMonths}个月，获赠${bonusMonths}个月免费课程 - 共${totalMonths}个月`,
+      registerNow: '立即报名',
+      contactUs: '联系我们',
+      learningOutcomes: '学习成果',
+      curriculum: '课程大纲',
+      weeks: '周',
+      reviews: '学生评价',
+      notSureLevel: '不确定自己的水平？',
+      notSureDesc: '参加免费水平测试，找到最适合您的课程。',
+      takePlacement: '参加水平测试',
+      features: '课程特点',
+      related: '相关课程',
+      readyStart: '准备开始学习了吗？',
+      readyDescPrefix: '加入',
+      readyDescSuffix: '，迈出英语学习旅程的下一步。',
+    });
+  }
   const getCourseTitle = (id: string, fallback: string) => {
+    if (isChinese) {
+      const map: Record<string, string> = {
+        'beginner-english': '初级英语',
+        'intermediate-english': '中级英语',
+        'advanced-english': '高级英语',
+        'ielts-preparation': 'IELTS 备考',
+        'ielts-intensive': 'IELTS 强化课程',
+        'business-english': '商务英语',
+        'mandarin-course': '普通话课程',
+        'academic-writing': '学术写作',
+      };
+      return map[id] || fallback;
+    }
     if (!isArabic) return fallback;
     const map: Record<string, string> = {
       'beginner-english': 'اللغة الإنجليزية للمبتدئين',
@@ -255,6 +306,19 @@ export function CourseDetailsPage() {
     return map[id] || fallback;
   };
   const getCourseDescription = (id: string, fallback: string) => {
+    if (isChinese) {
+      const map: Record<string, string> = {
+        'beginner-english': '适合刚开始英语学习旅程的学生。打好语法、词汇和基础会话能力。',
+        'intermediate-english': '建立日常交流所需的流利度与自信，适用于工作、旅行和社交场景。',
+        'advanced-english': '掌握复杂语法结构和专业场景所需的高级词汇。',
+        'ielts-preparation': '通过专家指导实现目标 IELTS 分数，全面准备听说读写四个部分。',
+        'ielts-intensive': '通过密集课程、重点练习和考试策略快速备考 IELTS。',
+        'business-english': '提升会议、演示、邮件和商务沟通所需的专业英语能力。',
+        'mandarin-course': '通过结构化课程和 HSK 导向学习，建立实用普通话沟通能力。',
+        'academic-writing': '掌握论文、研究报告和大学学术英语写作。',
+      };
+      return map[id] || fallback;
+    }
     if (!isArabic) return fallback;
     const map: Record<string, string> = {
       'beginner-english':
@@ -267,6 +331,67 @@ export function CourseDetailsPage() {
     return map[id] || fallback;
   };
   const getLocalizedOutcomes = (id: string, fallback: string[]) => {
+    if (isChinese) {
+      const map: Record<string, string[]> = {
+        'beginner-english': [
+          '理解并使用基础英语短语',
+          '自信地介绍自己和他人',
+          '提出并回答简单问题',
+          '撰写简单邮件和信息',
+          '用英语处理日常情境',
+        ],
+        'intermediate-english': [
+          '在多数日常场景中流利沟通',
+          '理解英语电影和电视节目',
+          '撰写专业邮件和报告',
+          '自信进行演示',
+          '积极参与小组讨论',
+        ],
+        'advanced-english': [
+          '在专业场景中清晰表达复杂想法',
+          '使用高级语法和词汇',
+          '提升正式写作和演讲能力',
+          '理解真实材料中的细节和语气',
+          '在学术和职场交流中更自信',
+        ],
+        'ielts-preparation': [
+          '掌握 IELTS 听说读写四个部分',
+          '学习有效的时间管理策略',
+          '建立考试日信心',
+          '提升目标分数所需的答题能力',
+          '获得个性化反馈和改进方向',
+        ],
+        'ielts-intensive': [
+          '每日练习 IELTS 听说读写',
+          '快速加强薄弱题型',
+          '学习高效考试策略',
+          '完成模拟测试并获得反馈',
+          '为近期 IELTS 考试做好准备',
+        ],
+        'business-english': [
+          '在会议和商务讨论中自信表达',
+          '撰写清晰专业的邮件',
+          '提升演示和谈判表达能力',
+          '掌握职场常用词汇',
+          '更自然地进行跨文化商务沟通',
+        ],
+        'mandarin-course': [
+          '理解并使用基础普通话词汇和句型',
+          '在日常场景中自信交流',
+          '认读并书写基础汉字',
+          '建立听、说、读、写能力',
+          '根据学习时长准备 HSK 1、2 或 3 级',
+        ],
+        'academic-writing': [
+          '组织清晰的学术文章结构',
+          '撰写论文和研究报告',
+          '使用正式学术表达',
+          '正确引用和整合资料',
+          '提升大学学习所需的英语写作能力',
+        ],
+      };
+      return map[id] || fallback;
+    }
     if (!isArabic) return fallback;
     const map: Record<string, string[]> = {
       'beginner-english': [

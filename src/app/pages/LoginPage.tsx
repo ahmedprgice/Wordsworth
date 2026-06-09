@@ -8,6 +8,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export function LoginPage() {
   const { language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
 
   const ui = isArabic
     ? {
@@ -58,6 +59,31 @@ export function LoginPage() {
         successRate: 'Success Rate',
         countries: 'Countries',
       };
+  if (isChinese) {
+    Object.assign(ui, {
+      emailRequired: '请输入邮箱',
+      emailInvalid: '请输入有效邮箱',
+      passwordRequired: '请输入密码',
+      passwordMin: '密码至少需要6个字符',
+      loginSuccess: '登录成功！（演示）',
+      welcomeBack: '欢迎回来',
+      continueJourney: '继续您的英语学习旅程',
+      emailLabel: '邮箱地址',
+      passwordLabel: '密码',
+      passwordPlaceholder: '请输入密码',
+      rememberMe: '记住我',
+      forgotPassword: '忘记密码？',
+      loginBtn: '登录',
+      continueWith: '或继续使用',
+      noAccount: '还没有账号？',
+      signUp: '注册',
+      panelTitle: '继续您的学习旅程',
+      panelSubtitle: '访问课程、跟踪进度，并实现您的英语学习目标',
+      courses: '课程',
+      successRate: '成功率',
+      countries: '国家',
+    });
+  }
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

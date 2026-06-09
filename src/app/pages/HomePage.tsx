@@ -10,6 +10,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export function HomePage() {
   const { t, language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
   const isMalay = language === 'ms';
   const baseUi = isArabic
     ? {
@@ -120,6 +121,11 @@ export function HomePage() {
         visaGuideSubtitle: 'Click the button below to get a guide on how to start your studies in Wordsworth Language Centre in Malaysia.',
         scholarshipTitle: 'English Scholarship in Malaysia',
         scholarshipDesc: 'Explore the official scholarship flyer from Wordsworth Language Centre for full eligibility and benefit details.',
+        flyerBadge: 'Scholarship Flyers',
+        flyerTitle: 'Explore Our Scholarship Opportunities',
+        flyerDesc: 'Browse the English and Mandarin scholarship flyers to compare current offers, eligibility details, and key benefits before applying.',
+        downloadEnglishPdf: 'Download English PDF',
+        downloadMandarinPdf: 'Download Mandarin PDF',
         viewFlyer: 'View Flyer',
         downloadFlyer: 'Download PDF',
         guideBadge: 'Placement Test Video Guide',
@@ -150,6 +156,78 @@ export function HomePage() {
         failedVerifyOtp: 'Failed to verify OTP.',
         otpVerifiedStatus: 'OTP verified successfully.',
       };
+
+  const zhUiOverrides = {
+    browserNoVideo: '您的浏览器不支持播放视频。',
+    sendMessageTitle: '给我们留言',
+    sendMessageSubtitle: '告诉我们您的需求，我们会尽快回复。',
+    messageSent: '消息已发送！',
+    messageSentSubtitle: '我们将在24小时内回复您。',
+    nameLabel: '姓名 *',
+    namePlaceholder: '您的姓名',
+    emailLabel: '邮箱 *',
+    phoneLabel: '电话号码 *',
+    subjectLabel: '主题 *',
+    messagePlaceholder: '请告诉我们更多咨询内容...',
+    messageAriaLabel: '留言（可选）',
+    otpNotice: '发送留言前，请先通过 OTP 验证您的邮箱。',
+    sendingOtp: '正在发送 OTP...',
+    sendOtp: '发送 OTP',
+    otpInputPlaceholder: '输入6位 OTP',
+    verifyingOtp: '正在验证...',
+    verifyOtp: '验证 OTP',
+    verified: '已验证',
+    sendMessageBtn: '发送消息',
+    sendingMessage: '正在发送...',
+    placementTitle: '免费英语水平测试',
+    placementDesc: '完成50道语法和词汇题，了解您的 CEFR 等级（A1-C2），并获得适合您的课程推荐。',
+    startPlacementTest: '点击这里开始',
+    exploreCourses: '超过3个月',
+    placementButtonDesc: '适合不需要学生签证的短期课程。',
+    coursesButtonDesc: '适合需要办理签证的长期课程。',
+    detailsFormTitle: '报名信息表',
+    detailsFormSubtitle: '填写您的资料，我们的团队会根据您的选择与您联系。',
+    selectedPlanLabel: '已选择选项',
+    closeModal: '关闭',
+    submitDetailsBtn: '提交资料',
+    detailsSentSuccess: '您的资料已成功发送。我们的团队会尽快与您联系。',
+    visaGuideTitle: '与 Wordsworth 一起开启马来西亚留学之旅',
+    visaGuideSubtitle: '点击下方按钮，获取如何在马来西亚 Wordsworth Language Centre 开始学习的指南。',
+    scholarshipTitle: '马来西亚英语奖学金',
+    scholarshipDesc: '查看 Wordsworth Language Centre 官方奖学金宣传单，了解完整申请资格和福利详情。',
+    flyerBadge: '奖学金宣传单',
+    flyerTitle: '探索我们的奖学金机会',
+    flyerDesc: '浏览英语和普通话奖学金宣传单，比较当前优惠、申请资格和主要福利。',
+    downloadEnglishPdf: '下载英语 PDF',
+    downloadMandarinPdf: '下载普通话 PDF',
+    viewFlyer: '查看宣传单',
+    downloadFlyer: '下载 PDF',
+    guideBadge: '水平测试视频指南',
+    guideTitle: '开始前请先观看教程',
+    guideIntro: '本部分包含录制的视频教程，完整说明如何从头到尾使用水平测试系统。',
+    guideIntro2: '几分钟内，您将了解如何注册、正确回答问题、提交测试，并清楚理解最终英语等级结果。',
+    walkthroughTitle: '系统流程说明',
+    walkthroughDesc: '为水平测试每一步提供清楚指引',
+    answerTitle: '如何正确作答',
+    answerDesc: '避免错误并顺利完成测试的最佳做法',
+    resultTitle: '结果与下一步',
+    resultDesc: '了解等级如何计算，以及下一步适合选择哪门课程',
+    nameRequired: '请输入姓名',
+    emailRequired: '请输入邮箱',
+    emailInvalid: '请输入有效邮箱',
+    phoneRequired: '请输入电话号码',
+    subjectRequired: '请选择主题',
+    verifyOtpBeforeSubmit: '发送留言前请先验证 OTP。',
+    failedSendMessage: '消息发送失败',
+    sentSuccessApi: '消息已成功发送。我们会尽快与您联系。',
+    genericError: '发生错误，请重试。',
+    emailPhoneFirst: '请先输入邮箱和电话号码。',
+    failedSendOtp: 'OTP 发送失败。',
+    otpSentStatus: 'OTP 已发送到您的邮箱。请输入下方6位验证码。',
+    enterOtpCode: '请输入 OTP 验证码。',
+    failedVerifyOtp: 'OTP 验证失败。',
+    otpVerifiedStatus: 'OTP 验证成功。',
+  };
 
   const msUiOverrides = {
     sendMessageTitle: 'Hantar Mesej Kepada Kami',
@@ -188,6 +266,11 @@ export function HomePage() {
     visaGuideSubtitle: 'Klik butang di bawah untuk mendapatkan panduan bagaimana memulakan pengajian anda di Wordsworth Language Centre di Malaysia.',
     scholarshipTitle: 'Biasiswa Bahasa Inggeris di Malaysia',
     scholarshipDesc: 'Lihat risalah biasiswa rasmi daripada Wordsworth Language Centre untuk syarat kelayakan dan manfaat penuh.',
+    flyerBadge: 'Risalah Biasiswa',
+    flyerTitle: 'Terokai Peluang Biasiswa Kami',
+    flyerDesc: 'Lihat risalah biasiswa Bahasa Inggeris dan Mandarin untuk membandingkan tawaran semasa, syarat kelayakan, dan manfaat utama.',
+    downloadEnglishPdf: 'Muat Turun PDF Inggeris',
+    downloadMandarinPdf: 'Muat Turun PDF Mandarin',
     viewFlyer: 'Lihat Risalah',
     downloadFlyer: 'Muat Turun PDF',
     guideBadge: 'Panduan Video Ujian Penempatan',
@@ -217,7 +300,7 @@ export function HomePage() {
     otpVerifiedStatus: 'OTP berjaya disahkan.',
   };
 
-  const ui = isMalay ? { ...baseUi, ...msUiOverrides } : baseUi;
+  const ui = isMalay ? { ...baseUi, ...msUiOverrides } : isChinese ? { ...baseUi, ...zhUiOverrides } : baseUi;
 
   const subjectOptions = [
     { value: 'Summer Camp', label: isArabic ? 'المعسكر الصيفي' : 'Summer Camp' },
@@ -227,6 +310,26 @@ export function HomePage() {
     { value: 'Fees', label: isArabic ? 'الرسوم' : 'Fees' },
     { value: 'Others', label: isArabic ? 'أخرى' : 'Others' },
   ];
+  const localizedSubjectLabels: Record<string, string> =
+    isChinese
+      ? {
+          'Summer Camp': '夏令营',
+          Scholarship: '奖学金',
+          Offers: '优惠',
+          Courses: '课程',
+          Fees: '费用',
+          Others: '其他',
+        }
+      : isMalay
+        ? {
+            'Summer Camp': 'Kem Musim Panas',
+            Scholarship: 'Biasiswa',
+            Offers: 'Tawaran',
+            Courses: 'Kursus',
+            Fees: 'Yuran',
+            Others: 'Lain-lain',
+          }
+        : {};
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const courses = [
@@ -969,7 +1072,7 @@ export function HomePage() {
                   >
                     {subjectOptions.map((option) => (
                       <option key={option.value} value={option.value}>
-                        {option.label}
+                        {localizedSubjectLabels[option.value] || option.label}
                       </option>
                     ))}
                   </select>
@@ -1022,11 +1125,11 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-10 text-center max-w-3xl mx-auto">
             <p className="inline-block rounded-full bg-brand-blue/10 px-3 py-1 text-xs tracking-[0.14em] text-brand-blue uppercase mb-3">
-              Scholarship Flyers
+              {ui.flyerBadge}
             </p>
-            <h2 className="mb-3">Explore Our Scholarship Opportunities</h2>
+            <h2 className="mb-3">{ui.flyerTitle}</h2>
             <p className="text-gray-600 text-base sm:text-lg">
-              Browse the English and Mandarin scholarship flyers to compare current offers, eligibility details, and key benefits before applying.
+              {ui.flyerDesc}
             </p>
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 justify-items-center">
@@ -1053,7 +1156,7 @@ export function HomePage() {
                 </a>
                 <div className="mt-3 text-center">
                   <a href="/assets/brochures/english-scholarship-flyers.pdf" download="English Scholarship Flyers.pdf" className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-5 py-2.5 text-white shadow-lg hover:bg-brand-blue-dark transition-colors">
-                    Download English PDF
+                    {ui.downloadEnglishPdf}
                   </a>
                 </div>
               </div>
@@ -1082,7 +1185,7 @@ export function HomePage() {
                 </a>
                 <div className="mt-3 text-center">
                   <a href="/assets/brochures/mandarin-scholarship-flyers.pdf" download="Mandarin Scholarship Flyers.pdf" className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-5 py-2.5 text-white shadow-lg hover:bg-brand-blue-dark transition-colors">
-                    Download Mandarin PDF
+                    {ui.downloadMandarinPdf}
                   </a>
                 </div>
               </div>

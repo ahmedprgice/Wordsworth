@@ -99,6 +99,7 @@ const allCourses = [
 export function CoursesPage() {
   const { t, language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
   const ui = isArabic
     ? {
         maxStudentsPerClass: (count: number) => `الحد الأقصى ${count} طالبًا لكل فصل`,
@@ -111,6 +112,21 @@ export function CoursesPage() {
         notSureTitle: 'Not Sure Which Course is Right for You?',
         notSureDesc: 'Take our free placement test to discover your current English level and get personalized course recommendations.',
         takePlacement: 'Take Placement Test',
+      };
+  const courseUi = isChinese
+    ? {
+        ...ui,
+        maxStudentsPerClass: (count: number) => `每班最多 ${count} 名学生`,
+        notSureTitle: '不确定哪门课程适合您？',
+        notSureDesc: '参加免费的水平测试，了解您当前的英语水平，并获得适合您的课程建议。',
+        takePlacement: '参加水平测试',
+        courseCount: (count: number) => `${count} 门课程`,
+        scholarshipNotice: '本课程可申请奖学金',
+      }
+    : {
+        ...ui,
+        courseCount: (count: number) => isArabic ? `${count} دورة` : `${count} ${count === 1 ? 'course' : 'courses'}`,
+        scholarshipNotice: isArabic ? 'تتوفر منحة دراسية لهذه الدورة' : 'Scholarship available for this course',
       };
   const [selectedLevel, setSelectedLevel] = useState<string>('All');
   const [selectedType, setSelectedType] = useState<string>('All');
@@ -140,7 +156,7 @@ export function CoursesPage() {
       'General English': t('type.generalEnglish'),
       'IELTS': t('type.ielts'),
       'Business English': t('type.businessEnglish'),
-      'Mandarin': 'Mandarin',
+      'Mandarin': t('type.mandarin'),
       'Academic': t('type.academic'),
     };
     return map[type] || type;
@@ -178,8 +194,9 @@ export function CoursesPage() {
       'intermediate-english': { key: 'course.intermediateEnglish', fallback: 'Intermediate English' },
       'advanced-english': { key: 'course.advancedEnglish', fallback: 'Advanced English' },
       'ielts-preparation': { key: 'course.ieltsPreparation', fallback: 'IELTS Preparation' },
+      'ielts-intensive': { key: 'course.ieltsIntensive', fallback: 'IELTS Intensive' },
       'business-english': { key: 'course.businessEnglish', fallback: 'Business English' },
-      'conversation-club': { key: 'course.conversationClub', fallback: 'Conversation Club' },
+      'mandarin-course': { key: 'course.mandarinCourse', fallback: 'Mandarin Course' },
       'academic-writing': { key: 'course.academicWriting', fallback: 'Academic Writing' },
     };
     const entry = map[id];
@@ -189,6 +206,19 @@ export function CoursesPage() {
   };
 
   const getCourseDescription = (id: string, fallback: string) => {
+    if (isChinese) {
+      const map: Record<string, string> = {
+        'beginner-english': '打好英语语法、词汇和基础会话能力的扎实基础。',
+        'intermediate-english': '提升日常英语沟通的流利度与自信。',
+        'advanced-english': '掌握复杂语法结构和专业场景所需的高级词汇。',
+        'ielts-preparation': '全面准备 IELTS 四个考试部分，并学习实用应试策略。',
+        'ielts-intensive': '通过密集每日课程和练习测试快速备考 IELTS。',
+        'business-english': '学习会议、演示、邮件和商务沟通所需的专业英语。',
+        'mandarin-course': '通过结构化课程和 HSK 导向学习，建立实用普通话沟通能力。',
+        'academic-writing': '掌握论文、研究报告和大学学术英语写作。',
+      };
+      return map[id] || fallback;
+    }
     if (!isArabic) return fallback;
     const map: Record<string, string> = {
       'beginner-english': 'ابنِ أساسًا قويًا في قواعد اللغة الإنجليزية والمفردات ومهارات المحادثة الأساسية.',
@@ -282,7 +312,7 @@ export function CoursesPage() {
 
         <div className="mb-6">
           <p className="text-gray-600">
-            {t('courses.showing')} {filteredCourses.length} {isArabic ? 'دورة' : filteredCourses.length === 1 ? 'course' : 'courses'}
+            {t('courses.showing')} {courseUi.courseCount(filteredCourses.length)}
           </p>
         </div>
 
@@ -339,12 +369,12 @@ export function CoursesPage() {
               <div className="space-y-1 mb-2">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Users className="w-4 h-4 text-brand-green" />
-                  <span>{ui.maxStudentsPerClass(course.students)}</span>
+                  <span>{courseUi.maxStudentsPerClass(course.students)}</span>
                 </div>
               </div>
 
               <div className="mb-2 rounded-lg bg-orange-50 px-3 py-2 text-sm font-semibold text-brand-orange">
-                Scholarship available for this course
+                {courseUi.scholarshipNotice}
               </div>
 
               <div className="mt-auto pt-4 border-t border-orange-100">
@@ -389,13 +419,13 @@ export function CoursesPage() {
 
       <section className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="mb-4">{ui.notSureTitle}</h2>
+          <h2 className="mb-4">{courseUi.notSureTitle}</h2>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            {ui.notSureDesc}
+            {courseUi.notSureDesc}
           </p>
           <Link to="/placement-test">
             <Button variant="primary" size="lg">
-              {ui.takePlacement}
+              {courseUi.takePlacement}
               <ArrowRight className={`w-5 h-5 ${isRTL ? 'rotate-180' : ''}`} />
             </Button>
           </Link>

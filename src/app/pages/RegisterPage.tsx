@@ -8,6 +8,7 @@ import { useLanguage } from '../contexts/LanguageContext';
 export function RegisterPage() {
   const { language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
+  const isChinese = language === 'zh';
   const ui = isArabic
     ? {
         fullNameRequired: 'الاسم الكامل مطلوب',
@@ -93,6 +94,49 @@ export function RegisterPage() {
         quote: '"Wordsworth transformed my English skills. I went from beginner to confident speaker in just 6 months!"',
         quoteAuthor: '- Sarah T., IELTS Student',
       };
+  if (isChinese) {
+    Object.assign(ui, {
+      fullNameRequired: '请输入全名',
+      fullNameMin: '姓名至少需要3个字符',
+      emailRequired: '请输入邮箱',
+      emailInvalid: '请输入有效邮箱',
+      passwordRequired: '请输入密码',
+      passwordMin: '密码至少需要8个字符',
+      passwordComplex: '密码必须包含大写字母、小写字母和数字',
+      confirmRequired: '请确认密码',
+      confirmMismatch: '两次输入的密码不一致',
+      termsRequired: '您必须同意条款和条件',
+      registerSuccess: '注册成功！（演示）',
+      createAccount: '创建账号',
+      startJourney: '今天开始您的英语流利之旅',
+      fullName: '全名',
+      email: '邮箱地址',
+      password: '密码',
+      confirmPassword: '确认密码',
+      fullNamePlaceholder: '输入您的全名',
+      passwordPlaceholder: '创建一个强密码',
+      confirmPasswordPlaceholder: '再次输入密码',
+      termsPrefix: '我同意',
+      terms: '条款和条件',
+      and: '和',
+      privacy: '隐私政策',
+      createAccountBtn: '创建账号',
+      alreadyHave: '已经有账号？',
+      login: '登录',
+      socialProof: '加入5,000多名正在学习的学生',
+      watchStories: '观看学生成功故事',
+      helpedThousands: '了解我们如何帮助数千名学生成功',
+      expertInstructors: '专业导师',
+      expertInstructorsDesc: '向拥有国际认证的合格教师学习',
+      provenResults: '成果显著',
+      provenResultsDesc: '95%的学生实现了语言目标',
+      globalCommunity: '国际社区',
+      globalCommunityDesc: '加入来自30多个国家的学生',
+      browserNoVideo: '您的浏览器不支持播放视频。',
+      quote: '“Wordsworth 改变了我的英语能力。我在短短6个月内从初学者变成了自信的表达者！”',
+      quoteAuthor: '- Sarah T.，IELTS 学生',
+    });
+  }
 
   const [formData, setFormData] = useState({
     fullName: '',
