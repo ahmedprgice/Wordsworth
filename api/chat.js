@@ -1,8 +1,7 @@
-const defaultQuickReplies = [
-  { label: 'Courses', action: 'courses' },
-  { label: 'Scholarship', action: 'scholarship' },
-  { label: 'Placement Test', action: 'placement' },
+const unavailableSuggestions = [
   { label: 'Contact Team', action: 'agent' },
+  { label: 'Placement Test', action: 'placement' },
+  { label: 'Courses', action: 'courses' },
 ];
 
 const actionMap = {
@@ -112,61 +111,68 @@ function getLanguageInstruction(language) {
   }
 }
 
-function getSystemPrompt(language) {
-  return [
-    'You are the official website assistant for Wordsworth Language Centre.',
-    getLanguageInstruction(language),
-    'Use only the provided site knowledge. If something is not in the knowledge, say you will connect the student with the team.',
-    'Be concise, warm, and practical.',
-    'Never invent fees, schedules, visa rules, or placement results.',
-    'If a question is high-stakes or specific, recommend staff handoff.',
-    'Prefer recommending the placement test for level uncertainty.',
-    'Return valid JSON only with this shape:',
-    '{"reply":"string","suggestions":[{"label":"string","action":"courses|scholarship|placement|fees|visa|register|agent|beginner|ielts|business|mandarin|short|long|reset"}]}',
-    'Keep suggestions to 0-4 items from the allowed action list.',
-    siteKnowledge,
-  ].join('\n');
-}
-
 function sanitizeMessages(messages) {
   if (!Array.isArray(messages)) return [];
 
   return messages
     .filter((message) => message && (message.type === 'user' || message.type === 'bot') && typeof message.text === 'string')
-    .slice(-8)
+    .slice(-10)
     .map((message) => ({
       role: message.type === 'user' ? 'user' : 'assistant',
-      content: message.text.slice(0, 1200),
+      content: message.text.slice(0, 1500),
     }));
 }
 
-function fallbackPayload(language) {
-  const reply =
-    language === 'zh'
-      ? '我现在可以先帮助您了解课程、奖学金、水平测试、费用或报名流程。如果您需要具体安排，我们的团队会继续跟进您。'
-      : language === 'ar'
-        ? 'يمكنني مساعدتك الآن في الدورات والمنح واختبار تحديد المستوى والرسوم والتسجيل. وإذا احتجت تفاصيل أدق فسيتابع معك فريقنا.'
-        : language === 'ms'
-          ? 'Saya boleh bantu dengan kursus, biasiswa, ujian penempatan, yuran, dan pendaftaran. Jika anda perlukan butiran khusus, pasukan kami akan sambung membantu anda.'
-          : 'I can help with courses, scholarship, placement test, fees, and registration. If you need specific next steps, our team can continue with you.';
-
-  return {
-    reply,
-    suggestions: defaultQuickReplies,
-  };
-}
-
 function normalizeSuggestions(rawSuggestions) {
-  if (!Array.isArray(rawSuggestions)) return defaultQuickReplies;
+  if (!Array.isArray(rawSuggestions)) return [];
 
   const normalized = rawSuggestions
     .map((item) => {
       const action = typeof item?.action === 'string' ? item.action.trim() : '';
-      return actionMap[action] || null;
+      const label = typeof item?.label === 'string' ? item.label.trim() : '';
+      const knownAction = actionMap[action];
+      if (!knownAction) return null;
+      return {
+        label: label || knownAction.label,
+        action: knownAction.action,
+      };
     })
     .filter(Boolean);
 
-  return normalized.length > 0 ? normalized.slice(0, 4) : defaultQuickReplies;
+  return normalized.slice(0, 4);
+}
+
+function getSystemPrompt(language) {
+  return [
+    'You are the official website AI assistant for Wordsworth Language Centre.',
+    getLanguageInstruction(language),
+    'Answer naturally like a real assistant, not like a menu or scripted FAQ.',
+    'Use only the provided site knowledge. If something is missing or uncertain, say you will connect the student with the team.',
+    'Be concise, helpful, and conversational.',
+    'Never invent fees, schedules, visa rules, or placement results.',
+    'If the student asks about their level, recommend the placement test.',
+    'If the student asks something specific that needs confirmation, suggest staff handoff.',
+    'Return valid JSON only with this exact shape:',
+    '{"reply":"string","suggestions":[{"label":"string","action":"courses|scholarship|placement|fees|visa|register|agent|beginner|ielts|business|mandarin|short|long|reset"}]}',
+    'Suggestions are optional and should only be included when truly useful.',
+    siteKnowledge,
+  ].join('\n');
+}
+
+function getUnavailablePayload(language) {
+  const reply =
+    language === 'zh'
+      ? 'AI 助手暂时不可用。您可以稍后再试，或先联系团队获取帮助。'
+      : language === 'ar'
+        ? 'المساعد الذكي غير متاح مؤقتًا الآن. يمكنك المحاولة مرة أخرى لاحقًا أو التواصل مع الفريق مباشرة.'
+        : language === 'ms'
+          ? 'Pembantu AI tidak tersedia buat masa ini. Anda boleh cuba lagi sebentar lagi atau hubungi pasukan kami terus.'
+          : 'The AI assistant is temporarily unavailable right now. Please try again shortly, or contact our team directly.';
+
+  return {
+    reply,
+    suggestions: unavailableSuggestions,
+  };
 }
 
 async function callGroq({ messages, language }) {
@@ -178,8 +184,8 @@ async function callGroq({ messages, language }) {
   const model = process.env.GROQ_MODEL?.trim() || 'openai/gpt-oss-20b';
   const payload = {
     model,
-    temperature: 0.2,
-    max_output_tokens: 350,
+    temperature: 0.3,
+    max_completion_tokens: 500,
     response_format: { type: 'json_object' },
     messages: [
       { role: 'system', content: getSystemPrompt(language) },
@@ -207,12 +213,16 @@ async function callGroq({ messages, language }) {
 
   const content = data?.choices?.[0]?.message?.content;
   if (typeof content !== 'string' || !content.trim()) {
-    throw new Error('Groq returned an empty chat response.');
+    throw new Error('Groq returned an empty response.');
   }
 
   const parsed = JSON.parse(content);
+  if (typeof parsed?.reply !== 'string' || !parsed.reply.trim()) {
+    throw new Error('Groq returned invalid JSON content.');
+  }
+
   return {
-    reply: typeof parsed?.reply === 'string' ? parsed.reply.trim() : '',
+    reply: parsed.reply.trim(),
     suggestions: normalizeSuggestions(parsed?.suggestions),
   };
 }
@@ -228,7 +238,7 @@ export default async function handler(req, res) {
   const cleanedMessages = sanitizeMessages(messages);
 
   if (cleanedMessages.length === 0) {
-    return res.status(200).json(fallbackPayload(normalizedLanguage));
+    return res.status(200).json(getUnavailablePayload(normalizedLanguage));
   }
 
   try {
@@ -237,12 +247,8 @@ export default async function handler(req, res) {
       language: normalizedLanguage,
     });
 
-    if (!result.reply) {
-      return res.status(200).json(fallbackPayload(normalizedLanguage));
-    }
-
     return res.status(200).json(result);
   } catch (_error) {
-    return res.status(200).json(fallbackPayload(normalizedLanguage));
+    return res.status(200).json(getUnavailablePayload(normalizedLanguage));
   }
 }

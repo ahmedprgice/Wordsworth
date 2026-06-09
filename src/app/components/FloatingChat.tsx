@@ -327,31 +327,17 @@ export function FloatingChat() {
     }
   };
 
-  const getFallbackReplyFromText = (text: string): ChatMessage => {
-    const lower = text.toLowerCase();
-
-    if (lower.includes('ielts')) return getBotReply('ielts');
-    if (lower.includes('business')) return getBotReply('business');
-    if (lower.includes('mandarin') || lower.includes('chinese')) return getBotReply('mandarin');
-    if (lower.includes('scholarship') || lower.includes('offer') || lower.includes('free month')) return getBotReply('scholarship');
-    if (lower.includes('placement') || lower.includes('test') || lower.includes('level')) return getBotReply('placement');
-    if (lower.includes('visa') || lower.includes('3 months') || lower.includes('student visa')) return getBotReply('visa');
-    if (lower.includes('fee') || lower.includes('price') || lower.includes('cost') || lower.includes('rm')) return getBotReply('fees');
-    if (lower.includes('register') || lower.includes('apply') || lower.includes('enroll')) return getBotReply('register');
-    if (lower.includes('course') || lower.includes('english') || lower.includes('beginner') || lower.includes('intermediate') || lower.includes('advanced')) return getBotReply('courses');
-
-    return makeBotMessage(
-      'I can help with courses, scholarship, fees, placement test, visa questions, or registration. Choose one below and we will keep it simple.',
+  const getUnavailableReply = (): ChatMessage =>
+    makeBotMessage(
+      'The AI assistant is temporarily unavailable right now. Please try again shortly, or contact our team directly.',
       [
-        { label: 'Courses', action: 'courses' },
-        { label: 'Scholarship', action: 'scholarship' },
-        { label: 'Placement Test', action: 'placement' },
         { label: 'Contact Team', action: 'agent' },
+        { label: 'Placement Test', action: 'placement' },
+        { label: 'Courses', action: 'courses' },
       ]
     );
-  };
 
-  const requestBotReply = async (userText: string, nextMessages: ChatMessage[]) => {
+  const requestBotReply = async (nextMessages: ChatMessage[]) => {
     try {
       setIsThinking(true);
 
@@ -385,9 +371,9 @@ export function FloatingChat() {
             }))
         : undefined;
 
-      appendMessages(makeBotMessage(data.reply.trim(), actions));
+      appendMessages(makeBotMessage(data.reply.trim(), actions && actions.length > 0 ? actions : undefined));
     } catch (_error) {
-      appendMessages(getFallbackReplyFromText(userText));
+      appendMessages(getUnavailableReply());
     } finally {
       setIsThinking(false);
     }
@@ -411,7 +397,7 @@ export function FloatingChat() {
     const userMessage = makeUserMessage(userText);
     const nextMessages = [...messages, userMessage];
     appendMessages(userMessage);
-    await requestBotReply(userText, nextMessages);
+    await requestBotReply(nextMessages);
   };
 
   const handleSendMessage = async (event: React.FormEvent) => {
@@ -427,7 +413,7 @@ export function FloatingChat() {
     if (handleLeadCapture(trimmed)) {
       return;
     }
-    await requestBotReply(trimmed, nextMessages);
+    await requestBotReply(nextMessages);
   };
 
   return (
