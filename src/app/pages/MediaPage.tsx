@@ -9,7 +9,7 @@ export function MediaPage() {
     {
       id: 1,
       coverImage: '/assets/images/thumbnails/WhatsApp Image 2026-05-21 at 4.01.25 PM.jpeg',
-      link:'https://www.instagram.com/p/DVplpjBifX0/'
+      link: 'https://www.instagram.com/p/DVplpjBifX0/'
     },
     {
       id: 2,
@@ -42,11 +42,11 @@ export function MediaPage() {
   ];
 
   const facebookPosts = [
-    { id: 1, coverImage: '/assets/images/social/instagram-reel-1.png', link: 'https://www.facebook.com/wordsworth.edu' },
-    { id: 2, coverImage: '/assets/images/social/instagram-reel-2.png', link: 'https://www.facebook.com/wordsworth.edu' },
-    { id: 3, coverImage: '/assets/images/social/instagram-reel-1.png', link: 'https://www.facebook.com/wordsworth.edu' },
-    { id: 4, coverImage: '/assets/images/social/instagram-reel-2.png', link: 'https://www.facebook.com/wordsworth.edu' },
-    { id: 5, coverImage: '/assets/images/social/instagram-reel-1.png', link: 'https://www.facebook.com/wordsworth.edu' },
+    { id: 1, coverImage: '/assets/images/facebookthumbnails/facebookvid1.png', link: 'https://www.facebook.com/share/r/1DoPvhNnJp/' },
+    { id: 2, coverImage: '/assets/images/facebookthumbnails/facebookvid2.png', link: 'https://www.facebook.com/share/r/1APbjsGggW/' },
+    { id: 3, coverImage: '/assets/images/facebookthumbnails/facebookvid3.png', link: 'https://www.facebook.com/share/r/18NpphDAhG/' },
+    { id: 4, coverImage: '/assets/images/facebookthumbnails/facebookvid4.png', link: 'https://www.facebook.com/share/r/18X9tBqQNu/' },
+    { id: 5, coverImage: '/assets/images/facebookthumbnails/facebookvid5.png', link: 'https://www.facebook.com/share/r/1F3ey9M9K5/' },
   ];
 
   return (
@@ -113,7 +113,7 @@ export function MediaPage() {
               <h2 className="mb-2">{t('media.tiktokVideos')}</h2>
               <p className="text-gray-600">{t('media.tiktokDesc')}</p>
             </div>
-            <a href="https://www.tiktok.com/@wordsworth.edu" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@wwlc_official?_r=1&_t=ZS-93arfYFsky1" target="_blank" rel="noopener noreferrer">
               <Button variant="primary" className="bg-black hover:bg-gray-900">
                 <Play className="w-5 h-5" />
                 {t('media.visitTikTok')}
@@ -151,7 +151,7 @@ export function MediaPage() {
               <h2 className="mb-2">{t('media.facebookUpdates')}</h2>
               <p className="text-gray-600">{t('media.facebookDesc')}</p>
             </div>
-            <a href="https://www.facebook.com/wordsworth.edu" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/creoleeducation/" target="_blank" rel="noopener noreferrer">
               <Button variant="primary" className="bg-blue-600 hover:bg-blue-700">
                 <Facebook className="w-5 h-5" />
                 {t('media.visitFacebook')}
@@ -195,13 +195,13 @@ export function MediaPage() {
                 {t('media.followOnInstagram')}
               </Button>
             </a>
-            <a href="https://www.tiktok.com/@wordsworth.edu" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@wwlc_official?_r=1&_t=ZS-93arfYFsky1" target="_blank" rel="noopener noreferrer">
               <Button variant="secondary" size="lg" className="w-full sm:w-auto bg-black hover:bg-gray-900 border-0 text-white">
                 <Play className="w-5 h-5" />
                 {t('media.followOnTikTok')}
               </Button>
             </a>
-            <a href="https://www.facebook.com/wordsworth.edu" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.facebook.com/creoleeducation/" target="_blank" rel="noopener noreferrer">
               <Button variant="secondary" size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 border-0 text-white">
                 <Facebook className="w-5 h-5" />
                 {t('media.likeOnFacebook')}

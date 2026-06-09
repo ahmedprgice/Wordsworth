@@ -16,7 +16,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-between h-16">
+        <div className="relative flex items-center h-16">
           {/* Logo - Left Side */}
           <Link to="/" className="flex items-center flex-shrink-0">
             <img
@@ -27,10 +27,10 @@ export function Navbar() {
           </Link>
 
           {/* Navigation Items - Center */}
-          <div className="hidden xl:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-10">
+          <div className="hidden xl:flex flex-1 items-center justify-center gap-8 2xl:gap-10 px-6">
             <Link
               to="/"
-              className={`pb-1 border-b-2 transition-colors ${
+              className={`pb-1 border-b-2 transition-colors whitespace-nowrap ${
                 isActive('/')
                   ? 'text-brand-blue font-medium border-brand-orange'
                   : 'text-gray-600 hover:text-brand-blue border-transparent'
@@ -40,7 +40,7 @@ export function Navbar() {
             </Link>
             <Link
               to="/courses"
-              className={`pb-1 border-b-2 transition-colors ${
+              className={`pb-1 border-b-2 transition-colors whitespace-nowrap ${
                 isActive('/courses')
                   ? 'text-brand-blue font-medium border-brand-orange'
                   : 'text-gray-600 hover:text-brand-blue border-transparent'
@@ -51,7 +51,7 @@ export function Navbar() {
 
             <Link
               to="/media"
-              className={`pb-1 border-b-2 transition-colors ${
+              className={`pb-1 border-b-2 transition-colors whitespace-nowrap ${
                 isMediaActive
                   ? 'text-brand-blue font-medium border-brand-orange'
                   : 'text-gray-600 hover:text-brand-blue border-transparent'
@@ -62,7 +62,7 @@ export function Navbar() {
 
             <Link
               to="/placement-test"
-              className={`pb-1 border-b-2 transition-colors ${
+              className={`pb-1 border-b-2 transition-colors whitespace-nowrap ${
                 isActive('/placement-test')
                   ? 'text-brand-blue font-medium border-brand-orange'
                   : 'text-gray-600 hover:text-brand-blue border-transparent'
@@ -73,7 +73,7 @@ export function Navbar() {
           </div>
 
           {/* Action Buttons - Right Side */}
-          <div className="hidden xl:flex items-center gap-3 flex-shrink-0">
+          <div className="hidden xl:flex items-center gap-3 flex-shrink-0 ml-auto">
             <LanguageSwitcher />
             <Link to="/contact">
               <Button variant="secondary" size="sm" className="py-1.5">

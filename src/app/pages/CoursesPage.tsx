@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { Clock, Users, ArrowRight, Filter, Download } from 'lucide-react';
+import { Users, ArrowRight, Filter, Download } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -73,15 +73,15 @@ const allCourses = [
     price: 'RM 1,800',
   },
   {
-    id: 'conversation-club',
-    title: 'Conversation Club',
-    description: 'Practice speaking English in a relaxed, supportive environment with native speakers.',
+    id: 'mandarin-course',
+    title: 'Mandarin Course',
+    description: 'Build practical Mandarin communication skills from beginner level with structured lessons and HSK-focused learning.',
     level: 'Beginner',
-    type: 'Conversation',
-    duration: '8 weeks',
-    schedule: 'Friday',
+    type: 'Mandarin',
+    duration: '6-12 months',
+    schedule: 'Intensive or standard track',
     students: 20,
-    price: 'RM 800',
+    price: 'From RM 2,500/month',
   },
   {
     id: 'academic-writing',
@@ -116,7 +116,7 @@ export function CoursesPage() {
   const [selectedType, setSelectedType] = useState<string>('All');
 
   const levels = ['All', 'Beginner', 'Intermediate', 'Advanced'];
-  const types = ['All', 'General English', 'IELTS', 'Business English', 'Conversation', 'Academic'];
+  const types = ['All', 'General English', 'IELTS', 'Business English', 'Mandarin', 'Academic'];
 
   const filteredCourses = allCourses.filter(course => {
     const levelMatch = selectedLevel === 'All' || course.level === selectedLevel;
@@ -140,7 +140,7 @@ export function CoursesPage() {
       'General English': t('type.generalEnglish'),
       'IELTS': t('type.ielts'),
       'Business English': t('type.businessEnglish'),
-      'Conversation': t('type.conversation'),
+      'Mandarin': 'Mandarin',
       'Academic': t('type.academic'),
     };
     return map[type] || type;
@@ -156,6 +156,21 @@ export function CoursesPage() {
     if (type === 'Business English') return 'bg-brand-orange/10 text-brand-orange';
     return 'bg-orange-50 text-brand-orange';
   };
+
+  const brochures = [
+    {
+      title: 'English Scholarship Flyer',
+      href: '/assets/brochures/english-scholarship-flyers.pdf',
+      download: 'English Scholarship Flyers.pdf',
+      image: '/assets/images/scholarship-cover.png',
+    },
+    {
+      title: 'Mandarin Scholarship Flyer',
+      href: '/assets/brochures/mandarin-scholarship-flyers.pdf',
+      download: 'Mandarin Scholarship Flyers.pdf',
+      image: '/assets/images/mandarin-cover.png',
+    },
+  ];
 
   const getCourseTitle = (id: string, fallback: string) => {
     const map: Record<string, { key: string; fallback: string }> = {
@@ -271,8 +286,43 @@ export function CoursesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredCourses.map(course => (
+        <div className="grid grid-cols-1 lg:grid-cols-[430px_minmax(0,1fr)] gap-8 items-start" dir="ltr">
+          <aside className="lg:sticky lg:top-24" dir={isRTL ? 'rtl' : 'ltr'}>
+            <div>
+              
+              <div className="space-y-8">
+                {brochures.map(brochure => (
+                  <a
+                    key={brochure.href}
+                    href={brochure.href}
+                    download={brochure.download}
+                    className="group block"
+                  >
+                    <div className="relative mx-auto max-w-[380px] pr-7 [perspective:1800px]">
+                      <div className="absolute right-0 top-[6%] h-[88%] w-[14%] rounded-r-xl border border-gray-200 bg-white shadow-[18px_22px_35px_rgba(0,0,0,0.22)] transition-transform duration-300 group-hover:translate-x-1">
+                        <div className="h-full rounded-r-xl bg-gradient-to-b from-white via-gray-50 to-gray-200" />
+                      </div>
+                      <div className="relative z-10 overflow-hidden rounded-xl border-2 border-brand-orange bg-white shadow-[0_24px_38px_rgba(10,18,58,0.24)] transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-[-0.5deg]">
+                        <img
+                          src={brochure.image}
+                          alt={brochure.title}
+                          className="aspect-[401/833] w-full object-cover object-top"
+                        />
+                      </div>
+                      <div className="mx-auto mt-4 h-5 w-[78%] rounded-full bg-black/20 blur-xl" />
+                    </div>
+                    <div className="mx-auto mt-4 flex max-w-[300px] items-center justify-center gap-3 rounded-lg bg-brand-orange px-4 py-3 text-sm font-semibold text-white shadow-sm transition-colors group-hover:bg-brand-blue-dark">
+                      <span>{brochure.title}</span>
+                      <Download className="h-4 w-4 shrink-0" />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5" dir={isRTL ? 'rtl' : 'ltr'}>
+            {filteredCourses.map(course => (
             <Card key={course.id} className="flex flex-col p-4 sm:p-5 gap-2 border border-orange-100 bg-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
               <div className="mb-1">
                 <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${getLevelPillClasses(course.level)}`}>
@@ -288,22 +338,19 @@ export function CoursesPage() {
 
               <div className="space-y-1 mb-2">
                 <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Clock className="w-4 h-4 text-brand-orange" />
-                  <span>{course.duration} • {course.schedule}</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Users className="w-4 h-4 text-brand-green" />
                   <span>{ui.maxStudentsPerClass(course.students)}</span>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-orange-100">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-2xl font-bold text-brand-orange">{course.price}</span>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Link to={`/courses/${course.id}`} className="flex-1">
-                    <Button variant="primary" size="sm" className="w-full bg-brand-orange hover:brightness-95">
+              <div className="mb-2 rounded-lg bg-orange-50 px-3 py-2 text-sm font-semibold text-brand-orange">
+                Scholarship available for this course
+              </div>
+
+              <div className="mt-auto pt-4 border-t border-orange-100">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <Link to={`/courses/${course.id}`}>
+                    <Button variant="primary" size="sm" className="w-full whitespace-nowrap bg-brand-orange px-3 hover:brightness-95">
                       {t('courses.viewDetails')}
                       <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                     </Button>
@@ -311,9 +358,8 @@ export function CoursesPage() {
                   <a
                     href="/assets/brochures/fee-structure-redesigned-2026.pdf"
                     download="fee-structure-redesigned-2026.pdf"
-                    className="flex-1"
                   >
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full whitespace-nowrap px-3">
                       <Download className="w-4 h-4" />
                       {t('courses.downloadBrochure')}
                     </Button>
@@ -321,7 +367,8 @@ export function CoursesPage() {
                 </div>
               </div>
             </Card>
-          ))}
+            ))}
+          </div>
         </div>
 
         {filteredCourses.length === 0 && (
@@ -357,6 +404,3 @@ export function CoursesPage() {
     </div>
   );
 }
-
-
-

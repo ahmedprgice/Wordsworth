@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useParams, Link } from 'react-router';
-import { Clock, Users, Calendar, CheckCircle, ArrowRight, BookOpen } from 'lucide-react';
+import { Calendar, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/card';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -83,6 +84,86 @@ const courseData: Record<string, any> = {
       { name: 'Li Wei', text: 'The interactive lessons made learning enjoyable and effective.', rating: 5 },
     ]
   },
+  'advanced-english': {
+    title: 'Advanced English',
+    level: 'Advanced',
+    description: 'Master complex grammar structures and sophisticated vocabulary for professional and academic settings.',
+    duration: '14 weeks',
+    schedule: 'Mon, Wed',
+    price: 'RM 1,800',
+    maxStudents: 10,
+    outcomes: [
+      'Use advanced grammar accurately in speaking and writing',
+      'Expand vocabulary for professional and academic communication',
+      'Discuss complex topics with clarity and confidence',
+      'Write stronger essays, reports, and formal messages',
+      'Improve fluency for higher-level study or workplace goals',
+    ],
+  },
+  'ielts-intensive': {
+    title: 'IELTS Intensive',
+    level: 'Advanced',
+    description: 'Fast-track your IELTS preparation with intensive classes, focused practice, and test strategies.',
+    duration: '6 weeks',
+    schedule: 'Mon-Fri',
+    price: 'RM 2,500',
+    maxStudents: 15,
+    outcomes: [
+      'Practise IELTS listening, reading, writing, and speaking daily',
+      'Improve test timing and question-handling strategies',
+      'Build confidence through focused exam-style exercises',
+      'Strengthen academic vocabulary and writing structure',
+      'Prepare quickly for an upcoming IELTS test date',
+    ],
+  },
+  'business-english': {
+    title: 'Business English',
+    level: 'Intermediate',
+    description: 'Professional English for meetings, presentations, emails, and workplace communication.',
+    duration: '12 weeks',
+    schedule: 'Tue, Thu',
+    price: 'RM 1,800',
+    maxStudents: 12,
+    outcomes: [
+      'Write clearer professional emails and workplace messages',
+      'Speak more confidently in meetings and discussions',
+      'Prepare and deliver business presentations',
+      'Use appropriate vocabulary for professional situations',
+      'Communicate more effectively with colleagues and clients',
+    ],
+  },
+  'mandarin-course': {
+    title: 'Mandarin Course',
+    level: 'Beginner',
+    description: 'Build practical Mandarin communication skills from beginner level with structured lessons and HSK-focused learning.',
+    duration: '6-12 months',
+    schedule: 'Intensive or standard track',
+    price: 'From RM 2,500/month',
+    maxStudents: 20,
+    outcomes: [
+      'Understand and use basic Mandarin vocabulary and sentence structures',
+      'Communicate confidently in everyday situations',
+      'Read and write essential Chinese characters',
+      'Build listening, speaking, reading, and writing skills',
+      'Prepare for HSK Level 1, 2, or 3 depending on study duration',
+    ],
+  },
+  'academic-writing': {
+    title: 'Academic Writing',
+    level: 'Advanced',
+    description: 'Master essay writing, research papers, and academic English for university studies.',
+    duration: '10 weeks',
+    schedule: 'Wed, Fri',
+    price: 'RM 1,600',
+    maxStudents: 10,
+    outcomes: [
+      'Plan and structure academic essays clearly',
+      'Develop stronger arguments with supporting evidence',
+      'Improve grammar, vocabulary, and academic style',
+      'Write more effective research-based assignments',
+      'Build confidence for university-level English writing',
+    ],
+  },
 };
 
 export function CourseDetailsPage() {
@@ -92,6 +173,7 @@ export function CourseDetailsPage() {
     'advanced-english': 'intermediate-english',
     'ielts-intensive': 'ielts-preparation',
     'business-english': 'intermediate-english',
+    'mandarin-course': 'intermediate-english',
     'conversation-club': 'intermediate-english',
     'academic-writing': 'ielts-preparation',
   };
@@ -104,6 +186,15 @@ export function CourseDetailsPage() {
         maxStudents: 'الحد الأقصى',
         students: 'طلاب',
         courseFee: 'رسوم الدورة',
+        courseDates: 'مدة الدراسة',
+        studyDuration: 'مدة الدراسة',
+        scholarshipFee: 'رسوم المنحة',
+        originalFee: 'السعر الأصلي',
+        promotionIncludes: 'يشمل العرض',
+        scholarshipIncludes: ['اختبار تحديد مستوى اللغة الإنجليزية', 'رسوم التسجيل', 'الكتب والمواد', 'رسوم التأشيرة'],
+        monthLabel: (count: number) => `${count} ${count === 1 ? 'شهر' : 'أشهر'}`,
+        scholarshipDurationLabel: (studyMonths: number, bonusMonths: number, totalMonths: number) => `${studyMonths} + ${bonusMonths} مجاني (${totalMonths} أشهر)`,
+        scholarshipDurationDesc: (studyMonths: number, bonusMonths: number, totalMonths: number) => `ادرس ${studyMonths} أشهر واحصل على ${bonusMonths} ${bonusMonths === 1 ? 'شهر مجاني' : 'أشهر مجانية'} - ${totalMonths} أشهر إجماليًا`,
         registerNow: 'سجل الآن',
         contactUs: 'اتصل بنا',
         learningOutcomes: 'مخرجات التعلم',
@@ -127,6 +218,18 @@ export function CourseDetailsPage() {
         maxStudents: 'Max',
         students: 'students',
         courseFee: 'Course Fee',
+        courseDates: 'Study Duration',
+        studyDuration: 'Study Duration',
+        scholarshipFee: 'Scholarship Fee',
+        originalFee: 'Original Fee',
+        promotionIncludes: 'Promotion Includes',
+        placementNote: 'Start with our free online placement test. It helps us match you with the right English level before joining.',
+        scholarshipIncludes: ['English Placement Test', 'Registration Fee', 'Books & Materials', 'Visa Fee'],
+        mandarinPlacementNote: 'Mandarin students can take a placement test if needed before joining the right class.',
+        mandarinScholarshipIncludes: ['Placement Test (if needed)', 'Registration Fee', 'Learning Materials'],
+        monthLabel: (count: number) => `${count} ${count === 1 ? 'month' : 'months'}`,
+        scholarshipDurationLabel: (studyMonths: number, bonusMonths: number, totalMonths: number) => `${studyMonths} + ${bonusMonths} free (${totalMonths} months)`,
+        scholarshipDurationDesc: (studyMonths: number, bonusMonths: number, totalMonths: number) => `Study ${studyMonths} ${studyMonths === 1 ? 'month' : 'months'} and get ${bonusMonths} ${bonusMonths === 1 ? 'month' : 'months'} free - ${totalMonths} months total`,
         registerNow: 'Register Now',
         contactUs: 'Contact Us',
         learningOutcomes: 'Learning Outcomes',
@@ -215,39 +318,39 @@ export function CourseDetailsPage() {
     };
     return map[id] || fallback;
   };
-  const localizedFeatureList = isArabic
-    ? [
-        'مدربون خبراء',
-        'دروس تفاعلية',
-        'مواد دراسية مشمولة',
-        'شهادة عند الإكمال',
-        'اختبار تحديد مستوى مجاني',
-        'خيارات دفع مرنة',
-      ]
-    : [
-        'Expert instructors',
-        'Interactive lessons',
-        'Study materials included',
-        'Certificate upon completion',
-        'Free placement test',
-        'Flexible payment options',
-      ];
   const { courseId } = useParams();
   const routeCourseId = courseId || '';
-  const courseIdKey = courseAliasMap[routeCourseId] || routeCourseId;
+  const courseIdKey = courseData[routeCourseId] ? routeCourseId : courseAliasMap[routeCourseId] || routeCourseId;
   const course = courseData[courseIdKey];
   const localizedOutcomes = course ? getLocalizedOutcomes(courseIdKey, course.outcomes) : [];
-  const localizedCurriculum = course ? getLocalizedCurriculum(courseIdKey, course.curriculum) : [];
   const whatsappNumber = '60175045565';
+  const englishScholarshipOptions = [
+    { value: '2-plus-1', studyMonths: 2, bonusMonths: 1, totalMonths: 3, originalFee: 'RM 8,450', scholarshipFee: 'RM 5,800' },
+    { value: '4-plus-2', studyMonths: 4, bonusMonths: 2, totalMonths: 6, originalFee: 'RM 19,200', scholarshipFee: 'RM 13,900' },
+    { value: '5-plus-3', studyMonths: 5, bonusMonths: 3, totalMonths: 8, originalFee: 'RM 25,300', scholarshipFee: 'RM 17,350' },
+    { value: '6-plus-6', studyMonths: 6, bonusMonths: 6, totalMonths: 12, originalFee: 'RM 35,900', scholarshipFee: 'RM 20,000' },
+  ];
+  const mandarinScholarshipOptions = [
+    { value: '1-plus-1', studyMonths: 1, bonusMonths: 1, totalMonths: 2, originalFee: 'RM 5,800', scholarshipFee: 'RM 3,150' },
+    { value: '2-plus-2', studyMonths: 2, bonusMonths: 2, totalMonths: 4, originalFee: 'RM 11,100', scholarshipFee: 'RM 5,800' },
+    { value: '3-plus-3', studyMonths: 3, bonusMonths: 3, totalMonths: 6, originalFee: 'RM 16,400', scholarshipFee: 'RM 8,450' },
+  ];
+  const isMandarinCourse = courseIdKey === 'mandarin-course';
+  const scholarshipOptions = isMandarinCourse ? mandarinScholarshipOptions : englishScholarshipOptions;
+  const promotionIncludes = isMandarinCourse ? ui.mandarinScholarshipIncludes || ui.scholarshipIncludes : ui.scholarshipIncludes;
+  const placementNote = isMandarinCourse ? ui.mandarinPlacementNote || ui.notSureDesc : ui.placementNote;
+  const [selectedScholarshipValue, setSelectedScholarshipValue] = useState(scholarshipOptions[0].value);
+  const selectedScholarship = scholarshipOptions.find(option => option.value === selectedScholarshipValue) || scholarshipOptions[0];
 
   const buildWhatsAppUrl = (intent: 'register' | 'contact') => {
     const courseName = getCourseTitle(courseIdKey, course.title);
+    const durationDetails = ` Study duration: ${ui.scholarshipDurationDesc(selectedScholarship.studyMonths, selectedScholarship.bonusMonths, selectedScholarship.totalMonths)}. Scholarship fee: ${selectedScholarship.scholarshipFee}.`;
     const message = isArabic
       ? intent === 'register'
-        ? `السلام عليكم، أريد التسجيل في دورة ${courseName}.`
+        ? `السلام عليكم، أريد التسجيل في دورة ${courseName}.${durationDetails}`
         : `السلام عليكم، أريد الاستفسار عن دورة ${courseName}.`
       : intent === 'register'
-        ? `Hi, I want to register for ${courseName}.`
+        ? `Hi, I want to register for ${courseName}.${durationDetails}`
         : `Hi, I want to ask about ${courseName}.`;
 
     return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -276,32 +379,78 @@ export function CourseDetailsPage() {
               {isArabic ? '→' : '←'} {ui.backToCourses}
             </Link>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="md:col-span-2">
-              <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm mb-4">
-                {course.level}
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_386px]">
+            <div className="max-w-3xl">
+              <div>
+                <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-sm mb-3">
+                  {course.level}
+                </div>
+                <h1 className="mb-3 text-white">{getCourseTitle(courseIdKey, course.title)}</h1>
+                <p className="text-lg text-blue-100">{getCourseDescription(courseIdKey, course.description)}</p>
               </div>
-              <h1 className="mb-4 text-white">{getCourseTitle(courseIdKey, course.title)}</h1>
-              <p className="text-xl text-blue-100 mb-6">{getCourseDescription(courseIdKey, course.description)}</p>
-              <div className="flex flex-wrap gap-6">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-5 h-5" />
-                  <span>{course.duration}</span>
+              <div className="mt-6 rounded-xl border border-white/20 bg-white/10 p-5 shadow-[0_18px_42px_rgba(0,0,0,0.14)] backdrop-blur-sm">
+                <p className="mb-4 text-sm font-bold uppercase tracking-[0.16em] text-white">
+                  {ui.promotionIncludes}
+                </p>
+                <p className="mb-4 text-sm leading-relaxed text-blue-100">
+                  {isArabic ? ui.notSureDesc : placementNote}
+                </p>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {promotionIncludes.map((item: string) => (
+                    <div key={item} className="flex items-center gap-3 rounded-lg bg-white/12 px-4 py-3 text-sm font-semibold text-white">
+                      <CheckCircle className="h-5 w-5 shrink-0 text-brand-orange" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  <span>{course.schedule}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5" />
-                  <span>{ui.maxStudents} {course.maxStudents} {ui.students}</span>
+              </div>
+              <div className="mt-4 rounded-xl border border-brand-orange/40 bg-brand-orange/15 p-4">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <h3 className="text-white">{ui.notSureLevel}</h3>
+                    <p className="mt-1 text-sm text-blue-100">{isArabic ? ui.notSureDesc : 'Take the online placement test before registering.'}</p>
+                  </div>
+                  <Link to="/placement-test" className="shrink-0">
+                    <Button variant="primary" className="w-full bg-brand-orange hover:brightness-95 sm:w-auto">
+                      {ui.takePlacement}
+                      <ArrowRight className={`h-4 w-4 ${isRTL ? 'rotate-180' : ''}`} />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
-            <div className="bg-white text-gray-900 rounded-xl p-6 shadow-lg h-fit">
-              <div className="text-center mb-4">
-                <p className="text-gray-600 mb-2">{ui.courseFee}</p>
-                <p className="text-3xl text-brand-blue mb-4">{course.price}</p>
+            <div className="rounded-xl bg-white p-6 text-gray-900 shadow-lg">
+              <div className="mb-4">
+                <p className="text-sm font-medium text-gray-600">{ui.scholarshipFee}</p>
+                <p className="mt-1 text-3xl text-brand-blue">{selectedScholarship.scholarshipFee}</p>
+                <p className="text-sm text-gray-500">
+                  {ui.originalFee}: <span className="line-through">{selectedScholarship.originalFee}</span>
+                </p>
+              </div>
+              <div className="mb-5 rounded-lg border border-blue-100 bg-blue-50/60 p-4 text-left" dir={isRTL ? 'rtl' : 'ltr'}>
+                <div className="mb-3 flex items-center gap-2 text-brand-blue">
+                  <Calendar className="h-5 w-5" />
+                  <h3 className="text-base font-semibold">{ui.courseDates}</h3>
+                </div>
+                <label htmlFor="course-study-duration" className="mb-2 block text-sm font-medium text-gray-700">
+                  {ui.studyDuration}
+                </label>
+                <select
+                  id="course-study-duration"
+                  value={selectedScholarshipValue}
+                  onChange={(event) => setSelectedScholarshipValue(event.target.value)}
+                  className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 pr-9 text-sm text-gray-900 outline-none transition-colors focus:border-brand-blue"
+                  aria-label={ui.studyDuration}
+                >
+                  {scholarshipOptions.map(option => (
+                    <option key={option.value} value={option.value}>
+                      {ui.scholarshipDurationLabel(option.studyMonths, option.bonusMonths, option.totalMonths)}
+                    </option>
+                  ))}
+                </select>
+                <div className="mt-3 rounded-lg bg-white px-3 py-2 text-sm text-gray-700">
+                  <p>{ui.scholarshipDurationDesc(selectedScholarship.studyMonths, selectedScholarship.bonusMonths, selectedScholarship.totalMonths)}</p>
+                </div>
               </div>
               <a href={buildWhatsAppUrl('register')} target="_blank" rel="noopener noreferrer">
                 <Button variant="primary" size="lg" className="w-full mb-3">
@@ -318,106 +467,27 @@ export function CourseDetailsPage() {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2 space-y-8">
-            <Card>
-              <h2 className="mb-6">{ui.learningOutcomes}</h2>
-              <div className="space-y-3">
-                {localizedOutcomes.map((outcome: string, index: number) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-brand-green flex-shrink-0 mt-1" />
-                    <p className="text-gray-700">{outcome}</p>
-                  </div>
-                ))}
+      <section className="py-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="overflow-hidden">
+            <div className="mb-6 flex flex-col gap-2 border-b border-orange-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-orange">What You Will Learn</p>
+                <h2 className="mt-1">{ui.learningOutcomes}</h2>
               </div>
-            </Card>
-
-            <Card>
-              <h2 className="mb-6">{ui.curriculum}</h2>
-              <div className="space-y-6">
-                {localizedCurriculum.map((module: any, index: number) => (
-                  <div key={index} className="border-l-4 border-brand-blue pl-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <BookOpen className="w-5 h-5 text-brand-blue" />
-                      <p className="text-gray-600">{ui.weeks} <span dir="ltr" className="inline-block">{module.week}</span></p>
-                    </div>
-                    <h3 className="mb-3">{module.topic}</h3>
-                    <ul className="space-y-2">
-                      {module.items.map((item: string, itemIndex: number) => (
-                        <li key={itemIndex} className="flex items-center gap-2 text-gray-700">
-                          <div className="w-1.5 h-1.5 bg-brand-blue rounded-full"></div>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-          </div>
-
-          <div className="space-y-6">
-            <Card className="bg-gradient-to-br from-brand-orange to-brand-orange text-white">
-              <h3 className="mb-3 text-white">{ui.notSureLevel}</h3>
-              <p className="mb-4 text-orange-100">{ui.notSureDesc}</p>
-              <Link to="/placement-test">
-                <Button variant="secondary" className="w-full">
-                  {ui.takePlacement}
-                  <ArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
-                </Button>
-              </Link>
-            </Card>
-
-            <Card>
-              <h3 className="mb-4">{ui.features}</h3>
-              <div className="space-y-3">
-                {localizedFeatureList.map((feature, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-brand-green" />
-                    <span className="text-sm text-gray-700">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
-
-            <Card>
-              <h3 className="mb-4">{ui.related}</h3>
-              <div className="space-y-3">
-                {Object.keys(courseData)
-                  .filter(id => id !== courseIdKey)
-                  .slice(0, 3)
-                  .map(id => (
-                    <Link key={id} to={`/courses/${id}`} className="block p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                      <p className="text-sm text-brand-blue">{getCourseTitle(id, courseData[id].title)}</p>
-                      <p className="text-xs text-gray-600">{courseData[id].level}</p>
-                    </Link>
-                  ))}
-              </div>
-            </Card>
-          </div>
-        </div>
-      </div>
-
-      <section className="bg-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="mb-4">{ui.readyStart}</h2>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            {ui.readyDescPrefix} {getCourseTitle(courseIdKey, course.title)} {ui.readyDescSuffix}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={buildWhatsAppUrl('register')} target="_blank" rel="noopener noreferrer">
-              <Button variant="primary" size="lg">
-                {ui.registerNow}
-              </Button>
-            </a>
-            <a href={buildWhatsAppUrl('contact')} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="lg">
-                {ui.contactUs}
-              </Button>
-            </a>
-          </div>
+              <span className="text-sm text-gray-500">{localizedOutcomes.length} key outcomes</span>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              {localizedOutcomes.map((outcome: string, index: number) => (
+                <div key={index} className="flex items-start gap-4 rounded-xl border border-orange-100 bg-orange-50/40 p-4">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-orange text-sm font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <p className="text-gray-800">{outcome}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
         </div>
       </section>
     </div>

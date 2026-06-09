@@ -350,6 +350,36 @@ const translations: Record<Language, Record<string, string>> = {
     'courses.viewAll': 'Lihat Semua Kursus',
     'courses.duration': 'Tempoh',
     'courses.downloadBrochure': 'Brosur',
+    'courses.schedule': 'Jadual',
+    'courses.maxStudents': 'Maksimum Pelajar',
+    'courses.studentsPerClass': 'pelajar setiap kelas',
+    'courses.showing': 'Memaparkan',
+    'courses.noCoursesFound': 'Tiada kursus yang sepadan dengan penapis anda.',
+    'courses.clearFilters': 'Kosongkan Penapis',
+
+    // Course Levels
+    'level.all': 'Semua',
+    'level.beginner': 'Permulaan',
+    'level.intermediate': 'Pertengahan',
+    'level.advanced': 'Lanjutan',
+
+    // Course Types
+    'type.all': 'Semua',
+    'type.generalEnglish': 'Bahasa Inggeris Umum',
+    'type.ielts': 'IELTS',
+    'type.businessEnglish': 'Bahasa Inggeris Perniagaan',
+    'type.conversation': 'Perbualan',
+    'type.academic': 'Akademik',
+
+    // Filters
+    'filter.level': 'Tahap',
+    'filter.type': 'Jenis',
+    'filter.apply': 'Terapkan',
+    'filter.clear': 'Kosongkan',
+
+    // Common
+    'common.filter': 'Penapis',
+    'common.register': 'Daftar',
 
     // Footer
     'footer.description': 'Institusi bahasa Inggeris terkemuka Malaysia yang berdedikasi untuk membantu pelajar mencapai kefasihan dan keyakinan.',
@@ -358,6 +388,25 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.contact': 'Hubungi Kami',
     'footer.followUs': 'Ikuti Kami',
     'footer.rights': 'Hak cipta terpelihara.',
+
+    // Media Page
+    'media.title': 'Pusat Media Sosial',
+    'media.subtitle': 'Ikuti kemas kini terkini, tip pelajar, dan cerita kejayaan di semua platform',
+    'media.instagramFeed': 'Suapan Instagram',
+    'media.instagramDesc': 'Kiriman terbaru, reels, dan sorotan kelas dari Instagram',
+    'media.tiktokVideos': 'Video TikTok',
+    'media.tiktokDesc': 'Tip Bahasa Inggeris pantas dan kandungan pembelajaran ringkas',
+    'media.facebookUpdates': 'Kemas Kini Facebook',
+    'media.facebookDesc': 'Berita, pengumuman, dan kemas kini komuniti',
+    'media.visitInstagram': 'Lawati Instagram',
+    'media.visitTikTok': 'Tonton di TikTok',
+    'media.visitFacebook': 'Lawati Facebook',
+    'media.viewReel': 'Lihat Reel',
+    'media.followForUpdates': 'Ikuti Kami untuk Kemas Kini Harian',
+    'media.dailyTips': 'Dapatkan tip pembelajaran harian, kisah kejayaan pelajar, dan kandungan eksklusif',
+    'media.followOnInstagram': 'Ikuti di Instagram',
+    'media.followOnTikTok': 'Ikuti di TikTok',
+    'media.likeOnFacebook': 'Like di Facebook',
   },
 };
 
@@ -373,7 +422,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [language, isRTL]);
 
   const t = (key: string): string => {
-    return translations[language][key] || key;
+    return translations[language][key] || translations.en[key] || key;
   };
 
   return (

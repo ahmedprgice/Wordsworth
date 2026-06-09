@@ -77,6 +77,18 @@ export function FloatingChat() {
 
   return (
     <>
+      <motion.a
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        href="https://wa.me/60175045565?text=Hi%20Wordsworth%20team%2C%20I%20need%20help%20with%20course%20details."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-20 right-4 md:right-6 z-50 bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl hover:brightness-95 transition-colors"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle className="w-6 h-6" />
+      </motion.a>
+
       <AnimatePresence>
         {isOpen && (
           <motion.div

@@ -10,7 +10,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 export function HomePage() {
   const { t, language, isRTL } = useLanguage();
   const isArabic = language === 'ar';
-  const ui = isArabic
+  const isMalay = language === 'ms';
+  const baseUi = isArabic
     ? {
         browserNoVideo: 'متصفحك لا يدعم تشغيل الفيديو.',
         sendMessageTitle: 'أرسل لنا رسالة',
@@ -105,10 +106,10 @@ export function HomePage() {
         placementTitle: 'Free English Placement Test',
         placementDesc:
           'Complete our 50-question grammar and vocabulary test to find your CEFR level (A1-C2) and get personalized course recommendations.',
-        startPlacementTest: '3 Months or Less',
+        startPlacementTest: 'Click here to start',
         exploreCourses: 'More Than 3 Months',
-        placementButtonDesc: 'Suitable for short-term programs that do not require a student visa.',
-        coursesButtonDesc: 'Suitable for study longer than 3 months and requires visa processing.',
+        placementButtonDesc: 'Short-term programs that do not require a student visa.',
+        coursesButtonDesc: 'Long term programs that require visa processing.',
         detailsFormTitle: 'Registration Details Form',
         detailsFormSubtitle: 'Fill in your details and our team will contact you about the option you selected.',
         selectedPlanLabel: 'Selected Option',
@@ -149,6 +150,74 @@ export function HomePage() {
         failedVerifyOtp: 'Failed to verify OTP.',
         otpVerifiedStatus: 'OTP verified successfully.',
       };
+
+  const msUiOverrides = {
+    sendMessageTitle: 'Hantar Mesej Kepada Kami',
+    sendMessageSubtitle: 'Beritahu kami keperluan anda, dan kami akan membalas dengan segera.',
+    messageSent: 'Mesej Berjaya Dihantar!',
+    messageSentSubtitle: 'Kami akan menghubungi anda dalam masa 24 jam.',
+    nameLabel: 'Nama *',
+    namePlaceholder: 'Nama anda',
+    emailLabel: 'Emel *',
+    phoneLabel: 'Nombor Telefon *',
+    subjectLabel: 'Subjek *',
+    messagePlaceholder: 'Berikan maklumat lanjut tentang pertanyaan anda...',
+    messageAriaLabel: 'Mesej (Pilihan)',
+    otpNotice: 'Sahkan emel anda dengan OTP sebelum menghantar mesej.',
+    sendingOtp: 'Menghantar OTP...',
+    sendOtp: 'Hantar OTP',
+    otpInputPlaceholder: 'Masukkan OTP 6 digit',
+    verifyingOtp: 'Mengesahkan...',
+    verifyOtp: 'Sahkan OTP',
+    verified: 'Disahkan',
+    sendMessageBtn: 'Hantar Mesej',
+    sendingMessage: 'Sedang dihantar...',
+    placementTitle: 'Ujian Penempatan Bahasa Inggeris Percuma',
+    placementDesc: 'Lengkapkan 50 soalan tatabahasa dan kosa kata untuk mengetahui tahap CEFR anda (A1-C2) serta cadangan kursus yang sesuai.',
+    startPlacementTest: '3 Bulan atau Kurang',
+    exploreCourses: 'Lebih Daripada 3 Bulan',
+    placementButtonDesc: 'Sesuai untuk program jangka pendek yang tidak memerlukan visa pelajar.',
+    coursesButtonDesc: 'Sesuai untuk tempoh belajar melebihi 3 bulan dan memerlukan pemprosesan visa.',
+    detailsFormTitle: 'Borang Maklumat Pendaftaran',
+    detailsFormSubtitle: 'Isi maklumat anda dan pasukan kami akan menghubungi anda berdasarkan pilihan yang dipilih.',
+    selectedPlanLabel: 'Pilihan Dipilih',
+    closeModal: 'Tutup',
+    submitDetailsBtn: 'Hantar Maklumat',
+    detailsSentSuccess: 'Maklumat anda berjaya dihantar. Pasukan kami akan menghubungi anda tidak lama lagi.',
+    visaGuideTitle: 'Mulakan Pengajian Anda di Malaysia bersama Wordsworth',
+    visaGuideSubtitle: 'Klik butang di bawah untuk mendapatkan panduan bagaimana memulakan pengajian anda di Wordsworth Language Centre di Malaysia.',
+    scholarshipTitle: 'Biasiswa Bahasa Inggeris di Malaysia',
+    scholarshipDesc: 'Lihat risalah biasiswa rasmi daripada Wordsworth Language Centre untuk syarat kelayakan dan manfaat penuh.',
+    viewFlyer: 'Lihat Risalah',
+    downloadFlyer: 'Muat Turun PDF',
+    guideBadge: 'Panduan Video Ujian Penempatan',
+    guideTitle: 'Tonton Tutorial Sebelum Anda Mula',
+    guideIntro: 'Bahagian ini mengandungi video rakaman yang menerangkan cara menggunakan sistem ujian penempatan dari awal hingga akhir.',
+    guideIntro2: 'Dalam beberapa minit, anda akan belajar cara mendaftar, menjawab soalan dengan betul, menghantar ujian, dan memahami keputusan akhir dengan yakin.',
+    walkthroughTitle: 'Panduan Sistem Langkah Demi Langkah',
+    walkthroughDesc: 'Arahan jelas untuk setiap langkah ujian penempatan',
+    answerTitle: 'Cara Menjawab Dengan Betul',
+    answerDesc: 'Amalan terbaik untuk mengelakkan kesilapan dan menyiapkan ujian dengan lancar',
+    resultTitle: 'Keputusan dan Langkah Seterusnya',
+    resultDesc: 'Ketahui cara tahap anda dikira dan kursus yang sesuai untuk anda',
+    nameRequired: 'Nama diperlukan',
+    emailRequired: 'Emel diperlukan',
+    emailInvalid: 'Sila masukkan emel yang sah',
+    phoneRequired: 'Nombor telefon diperlukan',
+    subjectRequired: 'Subjek diperlukan',
+    verifyOtpBeforeSubmit: 'Sila sahkan OTP sebelum menghantar mesej anda.',
+    failedSendMessage: 'Gagal menghantar mesej',
+    sentSuccessApi: 'Mesej berjaya dihantar. Kami akan menghubungi anda tidak lama lagi.',
+    genericError: 'Ralat berlaku. Sila cuba lagi.',
+    emailPhoneFirst: 'Sila masukkan emel dan nombor telefon terlebih dahulu.',
+    failedSendOtp: 'Gagal menghantar OTP.',
+    otpSentStatus: 'OTP telah dihantar ke emel anda. Masukkan kod 6 digit di bawah.',
+    enterOtpCode: 'Sila masukkan kod OTP.',
+    failedVerifyOtp: 'Gagal mengesahkan OTP.',
+    otpVerifiedStatus: 'OTP berjaya disahkan.',
+  };
+
+  const ui = isMalay ? { ...baseUi, ...msUiOverrides } : baseUi;
 
   const subjectOptions = [
     { value: 'Summer Camp', label: isArabic ? 'المعسكر الصيفي' : 'Summer Camp' },
@@ -951,45 +1020,81 @@ export function HomePage() {
       <section className="relative overflow-hidden bg-gradient-to-b from-gray-100 via-[#eceff4] to-[#f7f7f8] py-14 md:py-20">
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black/5 to-transparent" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center">
-            <div className="relative flex justify-center [perspective:1800px]">
-              <a
-                href="/assets/brochures/english-scholarship-flyers.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block relative"
-              >
-                <div className="absolute left-[58%] top-[3%] h-[92%] w-[36%] rounded-r-xl border border-gray-200 bg-white shadow-[18px_22px_32px_rgba(0,0,0,0.18)]">
-                  <div className="h-full w-full rounded-r-xl bg-[linear-gradient(180deg,#ffffff_0%,#f4f5f7_100%)] p-3">
-                    <div className="h-full rounded-lg border border-gray-200 bg-white overflow-hidden">
-                      <iframe
-                        src="/assets/brochures/english-scholarship-flyers.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
-                        title="English Scholarship Flyer Back"
-                        className="h-full w-full bg-white"
-                      />
+          <div className="mb-10 text-center max-w-3xl mx-auto">
+            <p className="inline-block rounded-full bg-brand-blue/10 px-3 py-1 text-xs tracking-[0.14em] text-brand-blue uppercase mb-3">
+              Scholarship Flyers
+            </p>
+            <h2 className="mb-3">Explore Our Scholarship Opportunities</h2>
+            <p className="text-gray-600 text-base sm:text-lg">
+              Browse the English and Mandarin scholarship flyers to compare current offers, eligibility details, and key benefits before applying.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 justify-items-center">
+            <div className="relative flex justify-center [perspective:2200px]">
+              <div className="group relative">
+                <a href="/assets/brochures/english-scholarship-flyers.pdf" download="English Scholarship Flyers.pdf" className="block relative">
+                  <div className="absolute right-[-10%] top-[6%] h-[86%] w-[30%] rounded-r-xl border border-gray-200 bg-white shadow-[24px_26px_42px_rgba(0,0,0,0.23)] z-0">
+                    <div className="h-full w-full rounded-r-xl bg-[linear-gradient(180deg,#ffffff_0%,#f6f7f9_100%)] p-2">
+                      <div className="h-full rounded-lg overflow-hidden bg-gradient-to-b from-[#f7f8fb] to-[#e8ebf2] border border-gray-100">
+                        <div className="h-full w-full flex items-center justify-center">
+                          <span className="text-[11px] sm:text-xs tracking-[0.12em] text-gray-500 uppercase">Flyer Back Preview</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                  <div className="absolute right-[-10.2%] top-[6%] h-[86%] w-[1.2%] bg-gradient-to-r from-gray-300 to-gray-100 rounded-full z-10" />
+                  <div className="absolute inset-y-[6.5%] right-[-10.5%] w-[10.5%] rounded-r-xl border-l border-slate-300/80 bg-gradient-to-r from-slate-300 via-slate-200 to-slate-50 shadow-[16px_18px_28px_rgba(0,0,0,0.26)] z-10" />
+                  <div className="absolute left-[25%] top-[1.2%] h-[7%] w-[45%] rounded-t-xl border-b border-slate-300/85 bg-gradient-to-b from-slate-50 via-slate-200 to-slate-300 shadow-[0_10px_18px_rgba(0,0,0,0.2)]" />
+                  <div className="relative z-20 w-[360px] max-w-[76vw] aspect-[401/833] rounded-xl bg-white border border-orange-300/70 shadow-[0_36px_54px_rgba(0,0,0,0.26),0_0_0_1px_rgba(245,162,31,0.45),0_0_24px_rgba(245,162,31,0.38)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-[-0.2deg] [transform-style:preserve-3d] [transform:rotateY(-8deg)_rotateX(1.2deg)] overflow-hidden">
+                    <img src="/assets/images/scholarship-cover.png" alt="English Scholarship Cover" className="h-full w-full object-cover object-center" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-black/8" />
+                  </div>
+                  <div className="mx-auto mt-3 h-4 w-[72%] rounded-full bg-black/25 blur-lg" />
+                </a>
+                <div className="mt-3 text-center">
+                  <a href="/assets/brochures/english-scholarship-flyers.pdf" download="English Scholarship Flyers.pdf" className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-5 py-2.5 text-white shadow-lg hover:bg-brand-blue-dark transition-colors">
+                    Download English PDF
+                  </a>
                 </div>
-                <div className="absolute left-[57.4%] top-[3%] h-[92%] w-[0.7%] bg-gradient-to-r from-gray-300 to-gray-100 rounded-full" />
-                <div className="relative w-[900px] max-w-[94vw] aspect-[297/210] rounded-xl bg-white border border-gray-200 shadow-[0_34px_48px_rgba(0,0,0,0.22)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-[-0.4deg] [transform:rotateY(-31deg)_rotateX(2deg)] overflow-hidden">
-                  <iframe
-                    src="/assets/brochures/english-scholarship-flyers.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
-                    title="English Scholarship Flyer"
-                    className="h-full w-full bg-white"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-black/8" />
+              </div>
+            </div>
+
+            <div className="relative flex justify-center [perspective:2200px]">
+              <div className="group relative">
+                <a href="/assets/brochures/mandarin-scholarship-flyers.pdf" download="Mandarin Scholarship Flyers.pdf" className="block relative">
+                  <div className="absolute right-[-10%] top-[6%] h-[86%] w-[30%] rounded-r-xl border border-gray-200 bg-white shadow-[24px_26px_42px_rgba(0,0,0,0.23)] z-0">
+                    <div className="h-full w-full rounded-r-xl bg-[linear-gradient(180deg,#ffffff_0%,#f6f7f9_100%)] p-2">
+                      <div className="h-full rounded-lg overflow-hidden bg-gradient-to-b from-[#f7f8fb] to-[#e8ebf2] border border-gray-100">
+                        <div className="h-full w-full flex items-center justify-center">
+                          <span className="text-[11px] sm:text-xs tracking-[0.12em] text-gray-500 uppercase">Flyer Back Preview</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute right-[-10.2%] top-[6%] h-[86%] w-[1.2%] bg-gradient-to-r from-gray-300 to-gray-100 rounded-full z-10" />
+                  <div className="absolute inset-y-[6.5%] right-[-10.5%] w-[10.5%] rounded-r-xl border-l border-slate-300/80 bg-gradient-to-r from-slate-300 via-slate-200 to-slate-50 shadow-[16px_18px_28px_rgba(0,0,0,0.26)] z-10" />
+                  <div className="absolute left-[25%] top-[1.2%] h-[7%] w-[45%] rounded-t-xl border-b border-slate-300/85 bg-gradient-to-b from-slate-50 via-slate-200 to-slate-300 shadow-[0_10px_18px_rgba(0,0,0,0.2)]" />
+                  <div className="relative z-20 w-[360px] max-w-[76vw] aspect-[401/833] rounded-xl bg-white border border-orange-300/70 shadow-[0_36px_54px_rgba(0,0,0,0.26),0_0_0_1px_rgba(245,162,31,0.45),0_0_24px_rgba(245,162,31,0.38)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-[-0.2deg] [transform-style:preserve-3d] [transform:rotateY(-8deg)_rotateX(1.2deg)] overflow-hidden">
+                    <img src="/assets/images/mandarin-cover.png" alt="Mandarin Scholarship Cover" className="h-full w-full object-cover object-center" />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/8 to-black/8" />
+                  </div>
+                  <div className="mx-auto mt-3 h-4 w-[72%] rounded-full bg-black/25 blur-lg" />
+                </a>
+                <div className="mt-3 text-center">
+                  <a href="/assets/brochures/mandarin-scholarship-flyers.pdf" download="Mandarin Scholarship Flyers.pdf" className="inline-flex items-center gap-2 rounded-lg bg-brand-orange px-5 py-2.5 text-white shadow-lg hover:bg-brand-blue-dark transition-colors">
+                    Download Mandarin PDF
+                  </a>
                 </div>
-                <div className="mx-auto mt-6 h-6 w-[68%] rounded-full bg-black/30 blur-xl" />
-              </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      <section className="bg-gray-50 pt-0 pb-16 md:pb-20">
+      <section className="bg-white pt-8 pb-16 md:pt-10 md:pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <div>
-              <div className="inline-block px-4 py-2 bg-brand-orange/10 rounded-full text-brand-orange text-sm mb-4">
+              <div className="inline-flex items-center justify-center px-5 py-2.5 bg-brand-orange/10 rounded-full text-brand-orange text-sm leading-none mb-4">
                 {ui.guideBadge}
               </div>
               <h2 className="mb-6">{ui.guideTitle}</h2>
