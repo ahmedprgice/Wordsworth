@@ -163,7 +163,7 @@ function getSystemPrompt(language) {
     'Do not tell interested students to take a placement test unless they explicitly ask about their level or need level checking.',
     'For messages like "I want to apply", "how do I register", or questions about the 2 + 1 free scholarship, reply with a direct handoff to the Marketing Executives and do not mention the placement test.',
     'For messages like "connect me to the team", do not say "I will connect you". Instead say the student can directly contact our Marketing Executives, then list Ahmed (+60 11-7248 3122) and Jowed (+60 14-279 9014).',
-    'Prefer clear wording like: "Sure! For the English scholarship options, please contact our Marketing Executives directly to start your application. You can reach: - Ahmed at +60 11-7248 3122 - Jowed at +60 14-279 9014. They will guide you through the process and answer any questions you have."',
+    'Prefer clear wording like: "Sure! For the English scholarship options, please contact our Marketing Executives directly to start your application. You can reach: • Ahmed: +60 11-7248 3122 • Jowed: +60 14-279 9014. They will guide you through the process and answer any questions you have."',
     'If the student asks something specific that needs confirmation, suggest staff handoff.',
     'Return valid JSON only with this exact shape:',
     '{"reply":"string","suggestions":[{"label":"string","action":"courses|scholarship|placement|fees|visa|register|agent|beginner|ielts|business|mandarin|short|long|reset"}]}',

@@ -279,7 +279,7 @@ export function FloatingChat() {
         );
       case 'scholarship':
         return makeBotMessage(
-          'Sure! For the English scholarship options, please contact our Marketing Executives directly to start your application. You can reach:\n- Ahmed at +60 11-7248 3122\n- Jowed at +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
+          'Sure! For the English scholarship options, please contact our Marketing Executives directly to start your application. You can reach:\n• Ahmed: +60 11-7248 3122\n• Jowed: +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
           [
             { label: 'English Scholarship', action: 'fees' },
             { label: 'Mandarin Scholarship', action: 'mandarin' },
@@ -304,7 +304,7 @@ export function FloatingChat() {
         );
       case 'fees':
         return makeBotMessage(
-          'For scholarship-based English study, the main offers currently start from RM 5,800 for 2 months + 1 month free. Mandarin scholarship starts from RM 3,150 for 1 month + 1 month free.\n\nTo start your application, please contact our Marketing Executives directly:\n- Ahmed at +60 11-7248 3122\n- Jowed at +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
+          'For scholarship-based English study, the main offers currently start from RM 5,800 for 2 months + 1 month free. Mandarin scholarship starts from RM 3,150 for 1 month + 1 month free.\n\nTo start your application, please contact our Marketing Executives directly:\n• Ahmed: +60 11-7248 3122\n• Jowed: +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
           [
             { label: 'English Courses', action: 'courses' },
             { label: 'Mandarin Course', action: 'mandarin' },
@@ -330,7 +330,7 @@ export function FloatingChat() {
         );
       case 'register':
         return makeBotMessage(
-          'The simplest path is:\n1. Choose your course or scholarship plan\n2. Contact our Marketing Executives directly to start your application\n\nYou can reach:\n- Ahmed at +60 11-7248 3122\n- Jowed at +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
+          'The simplest path is:\n1. Choose your course or scholarship plan\n2. Contact our Marketing Executives directly to start your application\n\nYou can reach:\n• Ahmed: +60 11-7248 3122\n• Jowed: +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
           [
             { label: 'Courses', action: 'courses' },
             { label: 'Contact Team', action: 'agent' },
@@ -380,7 +380,7 @@ export function FloatingChat() {
         );
       case 'short':
         return makeBotMessage(
-          'For short-term study, please contact our Marketing Executives directly to start your application. You can reach:\n- Ahmed at +60 11-7248 3122\n- Jowed at +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
+          'For short-term study, please contact our Marketing Executives directly to start your application. You can reach:\n• Ahmed: +60 11-7248 3122\n• Jowed: +60 14-279 9014\n\nThey will guide you through the process and answer any questions you have.',
           [
             { label: 'Contact Team', action: 'agent' },
           ]
@@ -409,7 +409,7 @@ export function FloatingChat() {
       case 'agent':
       default:
         return makeBotMessage(
-          `Sure! Please contact our Marketing Executives directly to start your application. You can reach:\n- ${marketingExecutives[0].name} at ${marketingExecutives[0].phone}\n- ${marketingExecutives[1].name} at ${marketingExecutives[1].phone}\n\nThey will guide you through the process and answer any questions you have.\n\nIf you want, send your name, email, and WhatsApp here first so the staff already has your details.`,
+          `Sure! Please contact our Marketing Executives directly to start your application. You can reach:\n• ${marketingExecutives[0].name}: ${marketingExecutives[0].phone}\n• ${marketingExecutives[1].name}: ${marketingExecutives[1].phone}\n\nThey will guide you through the process and answer any questions you have.\n\nIf you want, send your name, email, and WhatsApp here first so the staff already has your details.`,
           [
             { label: 'Send Name', action: 'name' },
             { label: 'Send Email', action: 'email' },
