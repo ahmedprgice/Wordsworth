@@ -352,7 +352,7 @@ export function ContactPage() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-5 md:gap-6">
           <div className="hidden md:block" />
           <div className="space-y-5">
             <Card className="p-4 sm:p-5 gap-3">

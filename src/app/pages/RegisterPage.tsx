@@ -1,4 +1,4 @@
-import { useState } from 'react';
+ import { useState } from 'react';
 import { Link } from 'react-router';
 import { Eye, EyeOff, Mail, Lock, User, CheckCircle, Play, GraduationCap, Award, Users } from 'lucide-react';
 import { Button } from '../components/ui/Button';

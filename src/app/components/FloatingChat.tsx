@@ -35,6 +35,10 @@ type LeadField = 'name' | 'email' | 'whatsapp';
 
 const whatsappNumber = '60175045565';
 const supportEmail = 'info@wordsworth.edu.my';
+const marketingExecutives = [
+  { name: 'Aahmed', phone: '+60 11-7248 3122', whatsapp: '601172483122' },
+  { name: 'Jowed', phone: '+60 14-279 9014', whatsapp: '60142799014' },
+] as const;
 
 const courseCards = [
   {
@@ -81,18 +85,68 @@ const courseCards = [
   },
 ] as const;
 
-const initialBotMessage = (): ChatMessage => ({
-  type: 'bot',
-  text:
-    'Welcome to Wordsworth Support. I can help with courses, scholarship offers, placement test guidance, fees, visa questions, and registration.',
-  timestamp: new Date(),
-  actions: [
-    { label: 'Courses', action: 'courses' },
-    { label: 'Scholarship', action: 'scholarship' },
-    { label: 'Placement Test', action: 'placement' },
-    { label: 'Contact Team', action: 'agent' },
-  ],
-});
+const getChatLocale = (language: string) => {
+  if (language === 'ar') {
+    return {
+      welcome:
+        'مرحبًا بك في دعم ووردزوورث. يمكنني مساعدتك في الدورات والمنح الدراسية واختبار تحديد المستوى والرسوم والتسجيل.',
+      actions: [
+        { label: 'الدورات', action: 'courses' as ChatAction },
+        { label: 'المنح الدراسية', action: 'scholarship' as ChatAction },
+        { label: 'اختبار تحديد المستوى', action: 'placement' as ChatAction },
+        { label: 'تواصل مع الفريق', action: 'agent' as ChatAction },
+      ],
+    };
+  }
+
+  if (language === 'zh') {
+    return {
+      welcome:
+        '欢迎来到 Wordsworth 支持中心。我可以帮助您了解课程、奖学金、水平测试、费用和报名流程。',
+      actions: [
+        { label: '课程', action: 'courses' as ChatAction },
+        { label: '奖学金', action: 'scholarship' as ChatAction },
+        { label: '水平测试', action: 'placement' as ChatAction },
+        { label: '联系团队', action: 'agent' as ChatAction },
+      ],
+    };
+  }
+
+  if (language === 'ms') {
+    return {
+      welcome:
+        'Selamat datang ke sokongan Wordsworth. Saya boleh bantu dengan kursus, biasiswa, ujian penempatan, yuran, dan pendaftaran.',
+      actions: [
+        { label: 'Kursus', action: 'courses' as ChatAction },
+        { label: 'Biasiswa', action: 'scholarship' as ChatAction },
+        { label: 'Ujian Penempatan', action: 'placement' as ChatAction },
+        { label: 'Hubungi Pasukan', action: 'agent' as ChatAction },
+      ],
+    };
+  }
+
+  return {
+    welcome:
+      'Welcome to Wordsworth Support. I can help with courses, scholarship offers, placement test guidance, fees, visa questions, and registration.',
+    actions: [
+      { label: 'Courses', action: 'courses' as ChatAction },
+      { label: 'Scholarship', action: 'scholarship' as ChatAction },
+      { label: 'Placement Test', action: 'placement' as ChatAction },
+      { label: 'Contact Team', action: 'agent' as ChatAction },
+    ],
+  };
+};
+
+const initialBotMessage = (language: string): ChatMessage => {
+  const locale = getChatLocale(language);
+
+  return {
+    type: 'bot',
+    text: locale.welcome,
+    timestamp: new Date(),
+    actions: locale.actions,
+  };
+};
 
 function makeBotMessage(
   text: string,
@@ -117,7 +171,7 @@ function makeUserMessage(text: string): ChatMessage {
 export function FloatingChat() {
   const { language } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([initialBotMessage()]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [initialBotMessage(language)]);
   const [inputMessage, setInputMessage] = useState('');
   const [isThinking, setIsThinking] = useState(false);
   const [expectedLeadField, setExpectedLeadField] = useState<LeadField | null>(null);
@@ -128,6 +182,16 @@ export function FloatingChat() {
     if (!scrollRef.current) return;
     scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [messages, isOpen]);
+
+  useEffect(() => {
+    setMessages((current) => {
+      if (current.length !== 1 || current[0]?.type !== 'bot') {
+        return current;
+      }
+
+      return [initialBotMessage(language)];
+    });
+  }, [language]);
 
   const handoffMessage = useMemo(() => {
     const details = [
@@ -215,6 +279,14 @@ export function FloatingChat() {
         );
       case 'scholarship':
         return makeBotMessage(
+          'Current scholarship offers:\n- English: 2 + 1 free, 4 + 2 free, 5 + 3 free, 6 + 6 free\n- Mandarin: 1 + 1 free, 2 + 2 free, 3 + 3 free\n\nTo apply online and secure your place, contact our Marketing Executives directly:\nAahmed: +60 11-7248 3122\nJowed: +60 14-279 9014',
+          [
+            { label: 'English Scholarship', action: 'fees' },
+            { label: 'Mandarin Scholarship', action: 'mandarin' },
+            { label: 'Contact Team', action: 'agent' },
+          ]
+        );
+        return makeBotMessage(
           'Current scholarship offers:\n• English: 2 + 1 free, 4 + 2 free, 5 + 3 free, 6 + 6 free\n• Mandarin: 1 + 1 free, 2 + 2 free, 3 + 3 free\n\nThese offers may include registration, materials, placement support, and some visa-related items depending on the course.',
           [
             { label: 'English Scholarship', action: 'fees' },
@@ -231,6 +303,14 @@ export function FloatingChat() {
           ]
         );
       case 'fees':
+        return makeBotMessage(
+          'For scholarship-based English study, the main offers currently start from RM 5,800 for 2 months + 1 month free. Mandarin scholarship starts from RM 3,150 for 1 month + 1 month free.\n\nTo apply online, contact our Marketing Executives:\nAahmed: +60 11-7248 3122\nJowed: +60 14-279 9014',
+          [
+            { label: 'English Courses', action: 'courses' },
+            { label: 'Mandarin Course', action: 'mandarin' },
+            { label: 'Contact Team', action: 'agent' },
+          ]
+        );
         return makeBotMessage(
           'For scholarship-based English study, the main offers currently start from RM 5,800 for 2 months + 1 month free. Mandarin scholarship starts from RM 3,150 for 1 month + 1 month free.',
           [
@@ -249,6 +329,13 @@ export function FloatingChat() {
           ]
         );
       case 'register':
+        return makeBotMessage(
+          'The simplest path is:\n1. Choose your course or scholarship plan\n2. Contact our Marketing Executive to apply online\n3. Our team will guide you through the next steps\n\nDirect contacts:\nAahmed: +60 11-7248 3122\nJowed: +60 14-279 9014',
+          [
+            { label: 'Courses', action: 'courses' },
+            { label: 'Contact Team', action: 'agent' },
+          ]
+        );
         return makeBotMessage(
           'The simplest path is:\n1. Choose your course or scholarship plan\n2. Take the placement test if needed\n3. Submit your registration\n4. Our team contacts you for the next steps',
           [
@@ -293,6 +380,12 @@ export function FloatingChat() {
         );
       case 'short':
         return makeBotMessage(
+          'For short-term study, we usually guide students to the fastest registration path. You can contact our Marketing Executives directly to apply online:\nAahmed: +60 11-7248 3122\nJowed: +60 14-279 9014',
+          [
+            { label: 'Contact Team', action: 'agent' },
+          ]
+        );
+        return makeBotMessage(
           'For short-term study, we usually guide students to the lighter registration path. You can start from the placement test or ask our team for the fastest option.',
           [
             { label: 'Placement Test', action: 'placement' },
@@ -312,9 +405,18 @@ export function FloatingChat() {
       case 'whatsapp':
         return makeBotMessage('');
       case 'reset':
-        return initialBotMessage();
+        return initialBotMessage(language);
       case 'agent':
       default:
+        return makeBotMessage(
+          `You can directly contact our Marketing Executives to apply online:\n${marketingExecutives[0].name}: ${marketingExecutives[0].phone}\nhttps://wa.me/${marketingExecutives[0].whatsapp}\n${marketingExecutives[1].name}: ${marketingExecutives[1].phone}\nhttps://wa.me/${marketingExecutives[1].whatsapp}\n\nIf you want, send your name, email, and WhatsApp here first so the staff already has your details.`,
+          [
+            { label: 'Send Name', action: 'name' },
+            { label: 'Send Email', action: 'email' },
+            { label: 'Send WhatsApp', action: 'whatsapp' },
+            { label: 'Start Over', action: 'reset' },
+          ]
+        );
         return makeBotMessage(
           'I can hand you over to our team. If you want, send your name, email, and WhatsApp here first so the staff already has your details.',
           [
@@ -383,7 +485,7 @@ export function FloatingChat() {
     if (action === 'reset') {
       setLead({ name: '', email: '', whatsapp: '' });
       setExpectedLeadField(null);
-      setMessages([makeUserMessage(label || 'Start Over'), initialBotMessage()]);
+      setMessages([makeUserMessage(label || 'Start Over'), initialBotMessage(language)]);
       return;
     }
 
